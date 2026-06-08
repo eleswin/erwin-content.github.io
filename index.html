@@ -219,22 +219,22 @@ footer{
 
 <div class="vid-grid">
   <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/casaIA2.mp4" loop playsinline muted preload="none"></video>
+    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/casaIA2.mp4" loop playsinline muted preload="metadata"></video>
     <span class="card-num">01</span>
     <div class="card-play"></div>
   </div>
   <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/Active8Full.mp4" loop playsinline muted preload="none"></video>
+    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/Active8Full.mp4" loop playsinline muted preload="metadata"></video>
     <span class="card-num">02</span>
     <div class="card-play"></div>
   </div>
   <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/1%20DSCR%20Loan.mp4" loop playsinline muted preload="none"></video>
+    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/1%20DSCR%20Loan.mp4" loop playsinline muted preload="metadata"></video>
     <span class="card-num">03</span>
     <div class="card-play"></div>
   </div>
   <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/isla%20blanca_2.mp4" loop playsinline muted preload="none"></video>
+    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/isla%20blanca_2.mp4" loop playsinline muted preload="metadata"></video>
     <span class="card-num">04</span>
     <div class="card-play"></div>
   </div>
@@ -254,22 +254,22 @@ footer{
   </div>
   <div class="grid">
     <div class="card">
-      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/prb.mp4" loop playsinline muted preload="none"></video>
+      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/prb.mp4" loop playsinline muted preload="metadata"></video>
       <span class="card-num">05</span>
       <div class="card-play"></div>
     </div>
     <div class="card">
-      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/6.mp4" loop playsinline muted preload="none"></video>
+      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/6.mp4" loop playsinline muted preload="metadata"></video>
       <span class="card-num">06</span>
       <div class="card-play"></div>
     </div>
     <div class="card">
-      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/Demii.mp4" loop playsinline muted preload="none"></video>
+      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/Demii.mp4" loop playsinline muted preload="metadata"></video>
       <span class="card-num">07</span>
       <div class="card-play"></div>
     </div>
     <div class="card">
-      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/OzonoTerapia.mp4" loop playsinline muted preload="none"></video>
+      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/OzonoTerapia.mp4" loop playsinline muted preload="metadata"></video>
       <span class="card-num">08</span>
       <div class="card-play"></div>
     </div>
@@ -308,17 +308,22 @@ footer{
   // Ningún video descarga datos hasta que el usuario lo ve.
   const cards = document.querySelectorAll('.vid-card, .card');
 
+  // Asigna src al entrar al viewport — preload="metadata" trae solo el primer frame (miniatura)
   const loadObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
       const video = entry.target.querySelector('.card-video');
       if (video && !video.src) {
         const src = video.getAttribute('data-src');
-        if (src) video.src = src;
+        if (src) {
+          video.src = src;
+          // Fuerza mostrar el primer frame como miniatura
+          video.load();
+        }
       }
       loadObserver.unobserve(entry.target);
     });
-  }, { rootMargin: '200px' }); // precarga 200px antes de entrar al viewport
+  }, { rootMargin: '300px' });
 
   cards.forEach(card => loadObserver.observe(card));
 
