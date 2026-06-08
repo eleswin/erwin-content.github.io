@@ -140,25 +140,25 @@ footer{padding:1.5rem;border-top:1px solid var(--border);display:flex;justify-co
 
 <div class="vid-grid">
   <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/casaIA2.mp4" loop playsinline muted preload="metadata"></video>
+    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/casaIA2.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
     <span class="card-num">01</span>
     <div class="card-play"></div>
   </div>
 
   <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/Active8Full.mp4" loop playsinline muted preload="metadata"></video>
+    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/Active8Full.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
     <span class="card-num">02</span>
     <div class="card-play"></div>
   </div>
 
   <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/1%20DSCR%20Loan.mp4" loop playsinline muted preload="metadata"></video>
+    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/1%20DSCR%20Loan.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
     <span class="card-num">03</span>
     <div class="card-play"></div>
   </div>
 
   <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/6.mp4" loop playsinline muted preload="metadata"></video>
+    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/6.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
     <span class="card-num">04</span>
     <div class="card-play"></div>
   </div>
@@ -178,22 +178,22 @@ footer{padding:1.5rem;border-top:1px solid var(--border);display:flex;justify-co
   </div>
   <div class="grid">
     <div class="card">
-      <video class="card-video" data-src="" loop playsinline muted preload="metadata"></video>
+      <video class="card-video" data-src="" loop playsinline webkit-playsinline muted preload="none"></video>
       <span class="card-num">05</span>
       <div class="card-play"></div>
     </div>
     <div class="card">
-      <video class="card-video" data-src="" loop playsinline muted preload="metadata"></video>
+      <video class="card-video" data-src="" loop playsinline webkit-playsinline muted preload="none"></video>
       <span class="card-num">06</span>
       <div class="card-play"></div>
     </div>
     <div class="card">
-      <video class="card-video" data-src="" loop playsinline muted preload="metadata"></video>
+      <video class="card-video" data-src="" loop playsinline webkit-playsinline muted preload="none"></video>
       <span class="card-num">07</span>
       <div class="card-play"></div>
     </div>
     <div class="card">
-      <video class="card-video" data-src="" loop playsinline muted preload="metadata"></video>
+      <video class="card-video" data-src="" loop playsinline webkit-playsinline muted preload="none"></video>
       <span class="card-num">08</span>
       <div class="card-play"></div>
     </div>
@@ -224,23 +224,17 @@ footer{padding:1.5rem;border-top:1px solid var(--border);display:flex;justify-co
 </footer>
 
 <script>
-// Carga nativa y directa de los MP4 desde Supabase
-document.querySelectorAll('.card-video').forEach(video => {
-  const src = video.getAttribute('data-src');
-  if (src) video.src = src;
-});
-
-// Sistema de reproducción seguro e inmune a errores null
+// El script inyecta el video únicamente en el momento exacto del clic para proteger la RAM del móvil
 const videoCards = document.querySelectorAll('.vid-card, .card');
 videoCards.forEach(card => {
   const video = card.querySelector('.card-video');
   if (!video) return;
 
   card.addEventListener('click', () => {
-    // Si la casilla clickeada no tiene enlace cargado en el src, frena la ejecución
-    if (!video.src) return;
+    const src = video.getAttribute('data-src');
+    if (!src) return; // Si no hay link de video (casillas 5-8), frena en seco sin romper nada
 
-    // Pausar cualquier otro video activo protegiendo las casillas vacías
+    // Pausar cualquier otro video activo de manera segura
     document.querySelectorAll('.card-video').forEach(otherVideo => {
       if (otherVideo !== video && !otherVideo.paused) {
         otherVideo.pause();
@@ -250,10 +244,16 @@ videoCards.forEach(card => {
       }
     });
 
-    // Controlar el video actual
+    // Inyectar el origen solo cuando el usuario lo pide por interacción
+    if (!video.src) {
+      video.src = src;
+      video.load(); // Fuerza al motor móvil de Android a preparar los codecs limpios
+    }
+
     if (video.paused) {
       video.muted = false; 
       video.play().then(() => card.classList.add('playing')).catch(() => {
+        // Fallback obligatorio de Android si exige iniciar muteado por hardware
         video.muted = true;
         video.play().then(() => card.classList.add('playing'));
       });
