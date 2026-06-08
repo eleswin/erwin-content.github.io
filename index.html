@@ -13,7 +13,7 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
   --bg:#080808;
-  --border:rgba(255,255,255,0.06); 
+  --border:rgba(255,255,255,0.06);
   --text:#f0ece4;
   --muted:#5a5855;
   --accent:#e8c97a;
@@ -34,13 +34,17 @@ body{
   overflow-x:hidden;
 }
 
+/* ── HEADER ── */
 header{
   display:flex;align-items:center;justify-content:space-between;
   padding:1.1rem 1.5rem;
   position:sticky;top:0;z-index:50;
-  background:rgba(8,8,8,0.9);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  background:rgba(8,8,8,0.92);
+  /* backdrop-filter solo en desktop — muy costoso en móvil */
   border-bottom:1px solid var(--border);
+}
+@media(hover:hover){
+  header{backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
 }
 .logo{
   font-family:var(--font-d);font-size:1.3rem;
@@ -51,76 +55,151 @@ header{
 .header-dot{width:8px;height:8px;border-radius:50%;background:var(--red);animation:blink 2s ease infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
 
+/* ── LABELS ── */
 .featured-label{
   display:flex;align-items:center;justify-content:space-between;
   padding:2.5rem 1.5rem 1.2rem;
-  max-width:var(--max); margin: 0 auto;
+  max-width:var(--max);margin:0 auto;
 }
 .featured-label span{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
 .featured-label strong{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2);font-weight:400;}
 
+/* ── GRIDS ── */
 .vid-grid{
   display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;
-  padding: 0 1.5rem 2.5rem;width:100%;max-width:var(--max); margin: 0 auto;
+  padding:0 1.5rem 2.5rem;width:100%;max-width:var(--max);margin:0 auto;
 }
-.vid-card, .card {
+@media(max-width:768px){.vid-grid{grid-template-columns:repeat(2,1fr);gap:.75rem;padding:0 .75rem 2rem;}}
+
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;padding:0 1.5rem;}
+@media(max-width:768px){.grid{grid-template-columns:repeat(2,1fr);gap:.75rem;padding:0 .75rem;}}
+
+/* ── CARDS ── */
+.vid-card,.card{
   position:relative;overflow:hidden;aspect-ratio:9/16;
-  cursor:pointer;background:#020202;border-radius: 8px;border: 1px solid var(--border);
+  cursor:pointer;background:#111;
+  border-radius:8px;border:1px solid var(--border);
+  /* contain aisla repaints y evita recalculos de layout en el resto de la página */
+  contain:layout style;
 }
-@media(max-width:768px){.vid-grid{grid-template-columns:repeat(2,1fr);gap: 1rem;padding: 0 1rem 2.5rem;}}
 
-.card-video {
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;opacity: 0.75;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+/* thumbnail placeholder mientras el video no carga */
+.vid-card::before,.card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(160deg,#1a1a1a 0%,#0d0d0d 100%);
+  z-index:0;
 }
-.vid-card:hover .card-video, .card:hover .card-video {transform: scale(1.04);opacity: 0.9;}
-.vid-card.playing .card-video, .card.playing .card-video {opacity: 1;}
 
-.card-num{position:absolute;top:.75rem;left:.8rem;font-family:var(--font-d);font-size:.7rem;letter-spacing:.12em;color:var(--accent);opacity:.6;z-index:2;pointer-events: none;}
+.card-video{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;z-index:1;opacity:.75;
+  /* will-change solo cuando es necesario — se activa via JS al reproducir */
+}
+
+/* hover solo en dispositivos con puntero real (desktop) */
+@media(hover:hover){
+  .card-video{transition:transform .3s cubic-bezier(.16,1,.3,1),opacity .25s ease;}
+  .vid-card:hover .card-video,.card:hover .card-video{transform:scale(1.04);opacity:.9;}
+  .vid-card:hover .card-play,.card:hover .card-play{opacity:1;transform:translate(-50%,-50%) scale(1.06);}
+}
+
+.vid-card.playing .card-video,.card.playing .card-video{opacity:1;}
+
+/* ── PLAY BUTTON ── */
+.card-num{
+  position:absolute;top:.75rem;left:.8rem;
+  font-family:var(--font-d);font-size:.7rem;letter-spacing:.12em;
+  color:var(--accent);opacity:.6;z-index:2;pointer-events:none;
+}
 .card-play{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;
-  border:2px solid rgba(232,201,122,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;
-  opacity:0.75;transition:opacity 0.2s ease, transform 0.2s ease;z-index:3;background:rgba(8,8,8,0.4);
-  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);pointer-events: none;
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:50px;height:50px;
+  border:2px solid rgba(232,201,122,.5);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  opacity:.75;z-index:3;
+  background:rgba(8,8,8,0.5);
+  /* SIN backdrop-filter aquí — era el principal culpable del lag en móvil */
+  pointer-events:none;
+  transition:opacity .2s ease, transform .2s ease;
 }
-.card-play::after{content:'';border-left:16px solid var(--accent);border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:5px;}
-.vid-card:hover .card-play, .card:hover .card-play {opacity:1;transform:translate(-50%,-50%) scale(1.06);}
-.vid-card.playing .card-play, .card.playing .card-play {opacity: 0;transform:translate(-50%,-50%) scale(0.7);}
+.card-play::after{
+  content:'';
+  border-left:16px solid var(--accent);
+  border-top:10px solid transparent;
+  border-bottom:10px solid transparent;
+  margin-left:5px;
+}
+.vid-card.playing .card-play,.card.playing .card-play{
+  opacity:0;transform:translate(-50%,-50%) scale(.7);
+}
 
+/* tap feedback en móvil */
+@media(hover:none){
+  .vid-card:active,.card:active{opacity:.85;}
+}
+
+/* ── HERO ── */
 .hero{padding:4.5rem 1.5rem 3.5rem;position:relative;overflow:hidden;max-width:var(--max);margin:0 auto;}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 120%,rgba(232,201,122,.06) 0%,transparent 70%);pointer-events:none;}
-.hero-eyebrow{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem;}
+.hero-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 120%,rgba(232,201,122,.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:1rem;
+  display:flex;align-items:center;gap:.6rem;
+}
 .hero-eyebrow::before{content:'';display:inline-block;width:24px;height:1px;background:var(--accent2);}
-h1{font-family:var(--font-d);font-size:clamp(3.5rem,10vw,6rem);line-height:.92;letter-spacing:.02em;text-transform:uppercase;margin-bottom:1.5rem;}
+h1{
+  font-family:var(--font-d);
+  font-size:clamp(3.5rem,10vw,6rem);
+  line-height:.92;letter-spacing:.02em;text-transform:uppercase;margin-bottom:1.5rem;
+}
 h1 em{font-style:normal;color:var(--accent);display:block;}
 .hero-desc{font-size:.9rem;color:var(--muted);max-width:400px;line-height:1.8;}
 
+/* ── SECTION ── */
 .sec-wrap{max-width:var(--max);margin:0 auto 3.5rem;}
 .sec-head{display:flex;align-items:center;justify-content:space-between;padding:2.5rem 1.5rem 1.2rem;}
 .sec-title{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
 .sec-count{font-size:.6rem;letter-spacing:.1em;color:var(--accent2);}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;padding: 0 1.5rem;}
-@media(max-width:768px){.grid{grid-template-columns:repeat(2,1fr);gap: 1rem;padding: 0 1rem;}}
 
+/* ── CONTACT ── */
 .contact{padding:3.5rem 1.5rem;border-top:1px solid var(--border);max-width:var(--max);margin:0 auto;}
-.contact h2{font-family:var(--font-d);font-size:clamp(2.8rem,10vw,4.5rem);letter-spacing:.03em;line-height:.95;text-transform:uppercase;margin-bottom:2.5rem;}
+.contact h2{
+  font-family:var(--font-d);
+  font-size:clamp(2.8rem,10vw,4.5rem);
+  letter-spacing:.03em;line-height:.95;text-transform:uppercase;margin-bottom:2.5rem;
+}
 .contact h2 span{color:var(--accent);}
 .contact-links{display:flex;flex-direction:column;gap:.75rem;}
 .clink{
-  display:flex;align-items:center;gap:.85rem;padding:1rem 1.2rem;border:1px solid var(--border);border-radius: 6px;
+  display:flex;align-items:center;gap:.85rem;
+  padding:1rem 1.2rem;border:1px solid var(--border);border-radius:6px;
   text-decoration:none;color:var(--text);font-size:.85rem;font-family:var(--font-b);font-weight:400;
-  transition:border-color .25s,background .25s, transform 0.2s;position:relative;overflow:hidden;
+  transition:border-color .2s,background .2s;
+  -webkit-touch-callout:none;
 }
-.clink::after{content:'';position:absolute;right:1.2rem;font-size:.75rem;color:var(--muted);transition:transform .25s,color .25s;}
-.clink:hover,.clink:active{border-color:rgba(232,201,122,0.3);background:rgba(232,201,122,0.01);transform: translateX(2px);}
+@media(hover:hover){
+  .clink:hover{border-color:rgba(232,201,122,0.3);background:rgba(232,201,122,0.01);transform:translateX(2px);}
+}
+@media(hover:none){
+  .clink:active{border-color:rgba(232,201,122,0.3);background:rgba(232,201,122,0.04);}
+}
 .clink.primary{background:var(--accent);border-color:var(--accent);color:#080808;font-weight:600;}
-.clink.primary::after{color:#080808;opacity:.5;}
-.clink.primary:hover,.clink.primary:active{background:var(--accent2);border-color:var(--accent2);}
+.clink.primary:active{background:var(--accent2);border-color:var(--accent2);}
 .clink-icon{width:32px;height:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .clink-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
 .clink.primary .clink-icon svg{stroke:#080808;}
 
-footer{padding:1.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;max-width:var(--max);margin:0 auto;}
+/* ── FOOTER ── */
+footer{
+  padding:1.5rem;border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+  max-width:var(--max);margin:0 auto;
+}
 .foot-copy{font-size:.6rem;letter-spacing:.08em;color:var(--muted);}
 .foot-avail{display:flex;align-items:center;gap:.4rem;font-size:.6rem;letter-spacing:.08em;color:var(--muted);}
 .foot-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 2s ease infinite;}
@@ -140,25 +219,22 @@ footer{padding:1.5rem;border-top:1px solid var(--border);display:flex;justify-co
 
 <div class="vid-grid">
   <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/casaIA2.mp4" loop playsinline muted preload="metadata"></video>
+    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/casaIA2.mp4" loop playsinline muted preload="none"></video>
     <span class="card-num">01</span>
     <div class="card-play"></div>
   </div>
-
   <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/Active8Full.mp4" loop playsinline muted preload="metadata"></video>
+    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/Active8Full.mp4" loop playsinline muted preload="none"></video>
     <span class="card-num">02</span>
     <div class="card-play"></div>
   </div>
-
   <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/1%20DSCR%20Loan.mp4" loop playsinline muted preload="metadata"></video>
+    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/1%20DSCR%20Loan.mp4" loop playsinline muted preload="none"></video>
     <span class="card-num">03</span>
     <div class="card-play"></div>
   </div>
-
   <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/isla%20blanca_2.mp4" loop playsinline muted preload="metadata"></video>
+    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/isla%20blanca_2.mp4" loop playsinline muted preload="none"></video>
     <span class="card-num">04</span>
     <div class="card-play"></div>
   </div>
@@ -178,22 +254,22 @@ footer{padding:1.5rem;border-top:1px solid var(--border);display:flex;justify-co
   </div>
   <div class="grid">
     <div class="card">
-      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/prb.mp4" loop playsinline muted preload="metadata"></video>
+      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/prb.mp4" loop playsinline muted preload="none"></video>
       <span class="card-num">05</span>
       <div class="card-play"></div>
     </div>
     <div class="card">
-      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/6.mp4" loop playsinline muted preload="metadata"></video>
+      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/6.mp4" loop playsinline muted preload="none"></video>
       <span class="card-num">06</span>
       <div class="card-play"></div>
     </div>
     <div class="card">
-      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/Demii.mp4" loop playsinline muted preload="metadata"></video>
+      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/Demii.mp4" loop playsinline muted preload="none"></video>
       <span class="card-num">07</span>
       <div class="card-play"></div>
     </div>
     <div class="card">
-      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/OzonoTerapia.mp4" loop playsinline muted preload="metadata"></video>
+      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/OzonoTerapia.mp4" loop playsinline muted preload="none"></video>
       <span class="card-num">08</span>
       <div class="card-play"></div>
     </div>
@@ -224,41 +300,85 @@ footer{padding:1.5rem;border-top:1px solid var(--border);display:flex;justify-co
 </footer>
 
 <script>
-document.querySelectorAll('.card-video').forEach(video => {
-  const src = video.getAttribute('data-src');
-  if (src) video.src = src;
-});
+(function(){
+  'use strict';
 
-const videoCards = document.querySelectorAll('.vid-card, .card');
-videoCards.forEach(card => {
-  const video = card.querySelector('.card-video');
-  if (!video) return;
+  // ── 1. LAZY LOAD CON INTERSECTIONOBSERVER ──────────────────────────────
+  // El src solo se asigna cuando la card entra al viewport.
+  // Ningún video descarga datos hasta que el usuario lo ve.
+  const cards = document.querySelectorAll('.vid-card, .card');
 
-  card.addEventListener('click', () => {
-    if (!video.src) return;
+  const loadObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const video = entry.target.querySelector('.card-video');
+      if (video && !video.src) {
+        const src = video.getAttribute('data-src');
+        if (src) video.src = src;
+      }
+      loadObserver.unobserve(entry.target);
+    });
+  }, { rootMargin: '200px' }); // precarga 200px antes de entrar al viewport
 
-    document.querySelectorAll('.card-video').forEach(otherVideo => {
-      if (otherVideo !== video && !otherVideo.paused) {
-        otherVideo.pause();
-        otherVideo.muted = true;
-        const parentCard = otherVideo.closest('.vid-card, .card');
-        if (parentCard) parentCard.classList.remove('playing');
+  cards.forEach(card => loadObserver.observe(card));
+
+
+  // ── 2. PAUSAR VIDEOS FUERA DEL VIEWPORT ───────────────────────────────
+  // Si el usuario hace scroll y la card queda fuera, el video se pausa
+  // automáticamente para liberar CPU/GPU.
+  const visibilityObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const video = entry.target.querySelector('.card-video');
+      if (!video) return;
+      if (!entry.isIntersecting && !video.paused) {
+        video.pause();
+        entry.target.classList.remove('playing');
       }
     });
+  }, { threshold: 0.1 });
 
-    if (video.paused) {
-      video.muted = false; 
-      video.play().then(() => card.classList.add('playing')).catch(() => {
-        video.muted = true;
-        video.play().then(() => card.classList.add('playing'));
+  cards.forEach(card => visibilityObserver.observe(card));
+
+
+  // ── 3. REPRODUCCIÓN AL TAP/CLICK ──────────────────────────────────────
+  cards.forEach(card => {
+    const video = card.querySelector('.card-video');
+    if (!video) return;
+
+    card.addEventListener('click', () => {
+      if (!video.src) return;
+
+      // Pausa todos los demás videos activos
+      document.querySelectorAll('.card-video').forEach(v => {
+        if (v !== video && !v.paused) {
+          v.pause();
+          v.muted = true;
+          const p = v.closest('.vid-card, .card');
+          if (p) p.classList.remove('playing');
+        }
       });
-    } else {
-      video.pause();
-      video.muted = true;
-      card.classList.remove('playing');
-    }
+
+      if (video.paused) {
+        // Activa will-change solo en el video que va a reproducirse
+        video.style.willChange = 'transform';
+        video.muted = false;
+        video.play()
+          .then(() => card.classList.add('playing'))
+          .catch(() => {
+            // Fallback: reproducir muteado si el navegador lo requiere
+            video.muted = true;
+            video.play().then(() => card.classList.add('playing'));
+          });
+      } else {
+        video.pause();
+        video.muted = true;
+        video.style.willChange = 'auto'; // libera la capa GPU al pausar
+        card.classList.remove('playing');
+      }
+    });
   });
-});
+
+})();
 </script>
 </body>
 </html>
