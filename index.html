@@ -64,9 +64,7 @@ header{
 }
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
 
-/* ═══════════════════════════════
-   GRID DE 4 VIDEOS — SECCIÓN TOP
-═══════════════════════════════ */
+/* ── Etiquetas de sección ── */
 .featured-label{
   display:flex;align-items:center;justify-content:space-between;
   padding:.75rem 1.5rem;
@@ -81,18 +79,16 @@ header{
   text-transform:uppercase;color:var(--accent2);font-weight:400;
 }
 
-/* Contenedor 4 cards en 2×2 en desktop, scroll en móvil */
+/* ── Grid de Videos Estructura ── */
 .vid-grid{
   display:grid;
-  /* desktop: 4 columnas en fila */
   grid-template-columns:repeat(4,1fr);
   gap:1px;
   background:var(--border);
   width:100%;
 }
 
-/* cada card de video */
-.vid-card{
+.vid-card, .card {
   position:relative;
   overflow:hidden;
   aspect-ratio:9/16;
@@ -100,40 +96,37 @@ header{
   background:var(--bg);
 }
 
-/* En MÓVIL: 2×2 grid */
 @media(max-width:640px){
   .vid-grid{
     grid-template-columns:repeat(2,1fr);
   }
 }
 
-/* fondos */
-.bg-a{background:linear-gradient(160deg,#0f0803 0%,#020612 60%,#0a0410 100%);}
-.bg-b{background:linear-gradient(160deg,#020a04 0%,#050208 100%);}
-.bg-c{background:linear-gradient(160deg,#0d0a02 0%,#040208 100%);}
-.bg-d{background:linear-gradient(160deg,#080214 0%,#020a08 100%);}
-
-.card-bg{
-  position:absolute;inset:0;
+/* ── Estilos de Video Nativo ── */
+.card-video {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:1;
   transition:transform .5s ease;
 }
-.vid-card:active .card-bg,.vid-card:hover .card-bg{transform:scale(1.04);}
 
-/* patrón SVG */
-.card-pat{
-  position:absolute;inset:0;opacity:.13;
-  display:flex;align-items:center;justify-content:center;
+/* Animación de zoom en los videos */
+.vid-card:hover .card-video, .vid-card:active .card-video,
+.card:hover .card-video, .card:active .card-video {
+  transform:scale(1.04);
 }
-.card-pat svg{width:50%;height:50%;}
 
 /* número */
 .card-num{
   position:absolute;top:.75rem;left:.8rem;
   font-family:var(--font-d);font-size:.7rem;
-  letter-spacing:.12em;color:var(--accent);opacity:.5;z-index:2;
+  letter-spacing:.12em;color:var(--accent);opacity:.6;z-index:2;
 }
 
-/* play */
+/* play icon */
 .card-play{
   position:absolute;top:50%;left:50%;
   transform:translate(-50%,-50%);
@@ -143,6 +136,8 @@ header{
   display:flex;align-items:center;justify-content:center;
   opacity:0;transition:opacity .3s;
   z-index:3;
+  background:rgba(8,8,8,0.2);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
 }
 .card-play::after{
   content:'';
@@ -151,10 +146,13 @@ header{
   border-bottom:8px solid transparent;
   margin-left:4px;
 }
-.vid-card:hover .card-play,.vid-card:active .card-play{opacity:1;}
+.vid-card:hover .card-play,.vid-card:active .card-play,
+.card:hover .card-play,.card:active .card-play {
+  opacity:1;
+}
 
 /* scanline hover */
-.vid-card::before{
+.vid-card::before, .card::before{
   content:'';
   position:absolute;top:-100%;left:0;right:0;
   height:30%;
@@ -162,23 +160,7 @@ header{
   z-index:2;pointer-events:none;
   transition:top .6s ease;
 }
-.vid-card:hover::before{top:150%;}
-
-/* info inferior */
-.card-info{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:.85rem .9rem .8rem;
-  background:linear-gradient(to top,rgba(8,8,8,.97) 0%,transparent 100%);
-  z-index:3;
-}
-.card-cat{
-  font-size:.52rem;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--accent2);margin-bottom:.2rem;
-}
-.card-name{
-  font-size:.78rem;font-weight:600;
-  color:var(--text);line-height:1.25;
-}
+.vid-card:hover::before, .card:hover::before{top:150%;}
 
 /* ── Hero / intro ── */
 .hero{
@@ -227,20 +209,6 @@ h1 em{font-style:normal;color:var(--accent);display:block;}
   display:grid;grid-template-columns:1fr 1fr;
   gap:1px;background:var(--border);
 }
-.card{
-  position:relative;overflow:hidden;
-  background:var(--bg);aspect-ratio:9/16;
-  cursor:pointer;-webkit-tap-highlight-color:transparent;
-}
-.card::before{
-  content:'';position:absolute;top:-100%;left:0;right:0;
-  height:30%;
-  background:linear-gradient(to bottom,transparent,rgba(232,201,122,.04),transparent);
-  z-index:2;pointer-events:none;transition:top .6s ease;
-}
-.card:hover::before{top:150%;}
-.bg-e{background:linear-gradient(160deg,#0a0202 0%,#02080d 100%);}
-.bg-f{background:linear-gradient(160deg,#040c0a 0%,#0c0402 100%);}
 
 /* ── Contacto ── */
 .contact{
@@ -265,7 +233,7 @@ h1 em{font-style:normal;color:var(--accent);display:block;}
   position:relative;overflow:hidden;
 }
 .clink::after{
-  content:'→';position:absolute;right:1rem;
+  content:'';position:absolute;right:1rem;
   font-size:.75rem;color:var(--muted);
   transition:transform .25s,color .25s;
 }
@@ -291,16 +259,15 @@ footer{
 .foot-avail{display:flex;align-items:center;gap:.4rem;font-size:.58rem;letter-spacing:.08em;color:var(--muted);}
 .foot-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 2s ease infinite;}
 
-/* ── Reveal ── */
+/* ── Reveal Animation ── */
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
 .reveal.in{opacity:1;transform:none;}
 
-/* ── Desktop: centrar y limitar ancho ── */
+/* ── Desktop Viewport ── */
 @media(min-width:641px){
   .vid-grid{
     max-width:var(--max);
     margin:0 auto;
-    /* 4 en fila en desktop */
     grid-template-columns:repeat(4,1fr);
   }
   .featured-label{max-width:var(--max);margin:0 auto;}
@@ -314,91 +281,47 @@ footer{
   <div class="header-dot" title="Disponible"></div>
 </header>
 
-<!-- ── Etiqueta ── -->
 <div class="featured-label reveal">
   <span>Trabajos destacados</span>
   <strong>04 proyectos</strong>
 </div>
 
-<!-- ══════════════════════════════
-     4 VIDEOS VISIBLES DE ENTRADA
-══════════════════════════════ -->
 <div class="vid-grid">
 
   <div class="vid-card reveal">
-    <div class="card-bg bg-a"></div>
-    <div class="card-pat">
-      <svg viewBox="0 0 60 100" fill="none" stroke="rgba(232,201,122,1)" stroke-width=".6">
-        <circle cx="30" cy="50" r="22"/><circle cx="30" cy="50" r="12"/>
-        <line x1="30" y1="28" x2="30" y2="72"/>
-        <line x1="8" y1="50" x2="52" y2="50"/>
-        <line x1="14" y1="34" x2="46" y2="66"/>
-        <line x1="46" y1="34" x2="14" y2="66"/>
-      </svg>
-    </div>
+    <video class="card-video" autoplay loop muted playsinline>
+      <source src="https://res.cloudinary.com/dompwyjjq/video/upload/casaIA2_eb289j.mp4" type="video/mp4">
+    </video>
     <span class="card-num">01</span>
     <div class="card-play"></div>
-    <div class="card-info">
-      <div class="card-cat">Reel · Instagram</div>
-      <div class="card-name">Finanzas<br>Personales</div>
-    </div>
   </div>
 
   <div class="vid-card reveal">
-    <div class="card-bg bg-b"></div>
-    <div class="card-pat">
-      <svg viewBox="0 0 60 100" fill="none" stroke="rgba(232,201,122,1)" stroke-width=".6">
-        <rect x="10" y="15" width="40" height="70"/>
-        <rect x="18" y="28" width="24" height="40"/>
-        <line x1="10" y1="35" x2="18" y2="35"/>
-        <line x1="50" y1="35" x2="42" y2="35"/>
-      </svg>
-    </div>
+    <video class="card-video" autoplay loop muted playsinline>
+      <source src="https://res.cloudinary.com/dompwyjjq/video/upload/Active8Full_nhph2z.mp4" type="video/mp4">
+    </video>
     <span class="card-num">02</span>
     <div class="card-play"></div>
-    <div class="card-info">
-      <div class="card-cat">Short · YouTube</div>
-      <div class="card-name">Bienes Raíces<br>Cinematic</div>
-    </div>
   </div>
 
   <div class="vid-card reveal">
-    <div class="card-bg bg-c"></div>
-    <div class="card-pat">
-      <svg viewBox="0 0 60 100" fill="none" stroke="rgba(232,201,122,1)" stroke-width=".6">
-        <polygon points="30,8 52,88 8,88"/>
-        <polygon points="30,28 45,75 15,75"/>
-      </svg>
-    </div>
+    <video class="card-video" autoplay loop muted playsinline>
+      <source src="https://res.cloudinary.com/dompwyjjq/video/upload/1_DSCR_Loan_bz0zpy.mp4" type="video/mp4">
+    </video>
     <span class="card-num">03</span>
     <div class="card-play"></div>
-    <div class="card-info">
-      <div class="card-cat">TikTok · Viral</div>
-      <div class="card-name">Efecto Diderot<br>Storytelling</div>
-    </div>
   </div>
 
   <div class="vid-card reveal">
-    <div class="card-bg bg-d"></div>
-    <div class="card-pat">
-      <svg viewBox="0 0 60 100" fill="none" stroke="rgba(232,201,122,1)" stroke-width=".6">
-        <ellipse cx="30" cy="50" rx="20" ry="35"/>
-        <line x1="30" y1="15" x2="30" y2="85"/>
-        <line x1="10" y1="50" x2="50" y2="50"/>
-        <ellipse cx="30" cy="50" rx="10" ry="18"/>
-      </svg>
-    </div>
+    <video class="card-video" autoplay loop muted playsinline>
+      <source src="https://res.cloudinary.com/dompwyjjq/video/upload/6_pnqvo1.mp4" type="video/mp4">
+    </video>
     <span class="card-num">04</span>
     <div class="card-play"></div>
-    <div class="card-info">
-      <div class="card-cat">Reel · Documental</div>
-      <div class="card-name">Consumo<br>&amp; Riqueza</div>
-    </div>
   </div>
 
 </div>
 
-<!-- ── Hero ── -->
 <section class="hero reveal">
   <div class="hero-bg"></div>
   <p class="hero-eyebrow">Editor de Video</p>
@@ -406,84 +329,49 @@ footer{
   <p class="hero-desc">Edición cinematográfica para marcas, creadores y negocios que quieren contenido que convierte.</p>
 </section>
 
-<!-- ── Más trabajos ── -->
 <div class="sec-wrap">
   <div class="sec-head reveal">
     <span class="sec-title">Más trabajos</span>
     <span class="sec-count">04 piezas</span>
   </div>
+  
   <div class="grid">
 
     <div class="card reveal">
-      <div class="card-bg bg-e"></div>
-      <div class="card-pat">
-        <svg viewBox="0 0 60 100" fill="none" stroke="rgba(232,201,122,1)" stroke-width=".6">
-          <rect x="8" y="12" width="44" height="76"/>
-          <line x1="8" y1="30" x2="52" y2="30"/>
-          <line x1="8" y1="70" x2="52" y2="70"/>
-          <circle cx="30" cy="50" r="10"/>
-        </svg>
-      </div>
+      <video class="card-video" autoplay loop muted playsinline>
+        <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video5.mp4" type="video/mp4">
+      </video>
+      <span class="card-num">05</span>
       <div class="card-play"></div>
-      <div class="card-info">
-        <div class="card-cat">Reel</div>
-        <div class="card-name">Proyecto 05</div>
-      </div>
     </div>
 
     <div class="card reveal">
-      <div class="card-bg bg-f"></div>
-      <div class="card-pat">
-        <svg viewBox="0 0 60 100" fill="none" stroke="rgba(232,201,122,1)" stroke-width=".6">
-          <path d="M10 85 Q30 10 50 85"/>
-          <path d="M18 85 Q30 28 42 85"/>
-          <line x1="10" y1="70" x2="50" y2="70"/>
-          <line x1="14" y1="55" x2="46" y2="55"/>
-        </svg>
-      </div>
+      <video class="card-video" autoplay loop muted playsinline>
+        <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video6.mp4" type="video/mp4">
+      </video>
+      <span class="card-num">06</span>
       <div class="card-play"></div>
-      <div class="card-info">
-        <div class="card-cat">Short</div>
-        <div class="card-name">Proyecto 06</div>
-      </div>
     </div>
 
     <div class="card reveal">
-      <div class="card-bg" style="background:linear-gradient(160deg,#0a0512 0%,#050a04 100%);"></div>
-      <div class="card-pat">
-        <svg viewBox="0 0 60 100" fill="none" stroke="rgba(232,201,122,1)" stroke-width=".6">
-          <path d="M15 20 L45 50 L15 80"/>
-          <path d="M25 30 L45 50 L25 70"/>
-        </svg>
-      </div>
+      <video class="card-video" autoplay loop muted playsinline>
+        <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video7.mp4" type="video/mp4">
+      </video>
+      <span class="card-num">07</span>
       <div class="card-play"></div>
-      <div class="card-info">
-        <div class="card-cat">TikTok</div>
-        <div class="card-name">Proyecto 07</div>
-      </div>
     </div>
 
     <div class="card reveal">
-      <div class="card-bg" style="background:linear-gradient(160deg,#020d0a 0%,#0d0205 100%);"></div>
-      <div class="card-pat">
-        <svg viewBox="0 0 60 100" fill="none" stroke="rgba(232,201,122,1)" stroke-width=".6">
-          <rect x="12" y="20" width="36" height="60" rx="4"/>
-          <line x1="20" y1="35" x2="40" y2="35"/>
-          <line x1="20" y1="45" x2="40" y2="45"/>
-          <line x1="20" y1="55" x2="32" y2="55"/>
-        </svg>
-      </div>
+      <video class="card-video" autoplay loop muted playsinline>
+        <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video8.mp4" type="video/mp4">
+      </video>
+      <span class="card-num">08</span>
       <div class="card-play"></div>
-      <div class="card-info">
-        <div class="card-cat">YouTube</div>
-        <div class="card-name">Proyecto 08</div>
-      </div>
     </div>
 
   </div>
 </div>
 
-<!-- ── Contacto ── -->
 <section class="contact reveal">
   <h2>Trabajemos<br><span>juntos.</span></h2>
   <div class="contact-links">
