@@ -21,7 +21,7 @@
   --red:#ff4422;
   --font-d:'Bebas Neue',sans-serif;
   --font-b:'Outfit',sans-serif;
-  --max:1000px; /* Aumentado un poco para dar más aire */
+  --max:1000px;
 }
 html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent;}
 body{
@@ -64,10 +64,10 @@ header{
 }
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
 
-/* ── Etiquetas de sección (Limpiadas de bordes) ── */
+/* ── Etiquetas de sección ── */
 .featured-label{
   display:flex;align-items:center;justify-content:space-between;
-  padding:2rem 1.5rem 1rem; /* Más espacio arriba */
+  padding:2.5rem 1.5rem 1.2rem;
   max-width:var(--max); margin: 0 auto;
 }
 .featured-label span{
@@ -79,12 +79,12 @@ header{
   text-transform:uppercase;color:var(--accent2);font-weight:400;
 }
 
-/* ── Grid de Videos Estructura (Nuevos Espaciados) ── */
+/* ── Grid de Videos Estructura Ampliada ── */
 .vid-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:1.5rem; /* MUCHO MÁS ESPACIO */
-  padding: 0 1.5rem 2rem;
+  gap:1.5rem;
+  padding: 0 1.5rem 2.5rem;
   width:100%;
   max-width:var(--max); margin: 0 auto;
 }
@@ -94,26 +94,26 @@ header{
   overflow:hidden;
   aspect-ratio:9/16;
   cursor:pointer;
-  background:#000; /* Fondo negro puro para carga */
-  border-radius: 8px; /* Bordes redondeados sutiles */
+  background:#020202;
+  border-radius: 8px;
   border: 1px solid var(--border);
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  transition: border-color 0.3s ease;
+  transform: translateZ(0); /* Forzar renderizado independiente */
 }
 
 .vid-card:hover, .card:hover {
-  border-color: rgba(232,201,122,0.3);
-  transform: translateY(-2px); /* Pequeño levante al hacer hover */
+  border-color: rgba(232,201,122,0.35);
 }
 
 @media(max-width:768px){
   .vid-grid{
     grid-template-columns:repeat(2,1fr);
     gap: 1rem;
-    padding: 0 1rem 2rem;
+    padding: 0 1rem 2.5rem;
   }
 }
 
-/* ── Estilos de Video Nativo (Sin autoplay) ── */
+/* ── Estilos de Video Optimizados (GPU Accelerated) ── */
 .card-video {
   position:absolute;
   inset:0;
@@ -121,13 +121,23 @@ header{
   height:100%;
   object-fit:cover;
   z-index:1;
-  opacity: 0.8; /* Ligeramente opaco cuando no se reproduce */
-  transition: opacity 0.3s ease;
+  opacity: 0.75;
+  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+  will-change: transform, opacity; /* Activa aceleración gráfica por hardware */
 }
 
-/* Cuando el video se está reproduciendo */
+/* Recuperado y mejorado el efecto Zoom al pasar el cursor */
+.vid-card:hover .card-video, .card:hover .card-video {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* Estado del video en reproducción */
 .vid-card.playing .card-video, .card.playing .card-video {
   opacity: 1;
+}
+.vid-card.playing:hover .card-video, .card.playing:hover .card-video {
+  transform: scale(1.02); /* Menos zoom si ya se está reproduciendo */
 }
 
 /* número */
@@ -138,20 +148,21 @@ header{
   pointer-events: none;
 }
 
-/* play icon (Habilitado por defecto) */
+/* play icon */
 .card-play{
   position:absolute;top:50%;left:50%;
   transform:translate(-50%,-50%);
   width:50px;height:50px;
-  border:2px solid rgba(232,201,122,.6);
+  border:2px solid rgba(232,201,122,.5);
   border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  opacity:0.7; /* Visible por defecto */
-  transition:opacity 0.3s, transform 0.3s, background 0.3s;
+  opacity:0.75;
+  transition:opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), background 0.3s;
   z-index:3;
   background:rgba(8,8,8,0.4);
   backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
-  pointer-events: none; /* El clic pasa a través al contenedor */
+  pointer-events: none;
+  will-change: transform, opacity;
 }
 .card-play::after{
   content:'';
@@ -163,22 +174,19 @@ header{
 
 .vid-card:hover .card-play, .card:hover .card-play {
   opacity:1;
-  transform:translate(-50%,-50%) scale(1.05);
+  transform:translate(-50%,-50%) scale(1.08);
   background:rgba(8,8,8,0.1);
 }
 
-/* Ocultar play cuando se reproduce */
+/* Ocultar play suavemente al reproducir */
 .vid-card.playing .card-play, .card.playing .card-play {
   opacity: 0;
-  transform:translate(-50%,-50%) scale(0.8);
+  transform:translate(-50%,-50%) scale(0.7);
 }
-
-/* scanline hover (Eliminado para limpieza total con el nuevo espaciado) */
-/*.vid-card::before, .card::before{...}*/
 
 /* ── Hero / intro ── */
 .hero{
-  padding:4rem 1.5rem 3rem;
+  padding:4.5rem 1.5rem 3.5rem;
   position:relative;overflow:hidden;
   max-width:var(--max);margin:0 auto;
 }
@@ -210,17 +218,17 @@ h1 em{font-style:normal;color:var(--accent);display:block;}
 }
 
 /* ── Grid secundaria ── */
-.sec-wrap{max-width:var(--max);margin:0 auto 3rem;}
+.sec-wrap{max-width:var(--max);margin:0 auto 3.5rem;}
 .sec-head{
   display:flex;align-items:center;justify-content:space-between;
-  padding:2rem 1.5rem 1rem;
+  padding:2.5rem 1.5rem 1.2rem;
 }
 .sec-title{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
 .sec-count{font-size:.6rem;letter-spacing:.1em;color:var(--accent2);}
 
 .grid{
   display:grid;grid-template-columns:1fr 1fr;
-  gap:1.5rem; /* Espacio aumentado */
+  gap:1.5rem;
   padding: 0 1.5rem;
 }
 @media(max-width:640px){
@@ -229,7 +237,7 @@ h1 em{font-style:normal;color:var(--accent);display:block;}
 
 /* ── Contacto ── */
 .contact{
-  padding:3rem 1.5rem;border-top:1px solid var(--border);
+  padding:3.5rem 1.5rem;border-top:1px solid var(--border);
   max-width:var(--max);margin:0 auto;
 }
 .contact h2{
@@ -281,7 +289,7 @@ footer{
 .foot-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 2s ease infinite;}
 
 /* ── Reveal Animation ── */
-.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal{opacity:0;transform:translateY(15px);transition:opacity 0.5s ease,transform 0.5s ease;}
 .reveal.in{opacity:1;transform:none;}
 
 </style>
@@ -390,74 +398,4 @@ footer{
 
     <a href="https://wa.me/573189108210?text=Hola%20Erwin%2C%20vi%20tu%20portafolio%20y%20me%20interesa%20trabajar%20contigo%20%F0%9F%8E%AC" target="_blank" rel="noopener" class="clink primary">
       <span class="clink-icon">
-        <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-      </span>
-      WhatsApp · +57 318 910 8210
-    </a>
-
-    <a href="https://www.instagram.com/elerwin_s/" target="_blank" rel="noopener" class="clink">
-      <span class="clink-icon">
-        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-      </span>
-      Instagram · @elerwin_s
-    </a>
-
-    <a href="https://www.tiktok.com/@eddy_maker" target="_blank" rel="noopener" class="clink">
-      <span class="clink-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
-        </svg>
-      </span>
-      TikTok · @eddy_maker
-    </a>
-
-  </div>
-</section>
-
-<footer>
-  <span class="foot-copy">© 2025 Erwin-Content</span>
-  <span class="foot-avail"><div class="foot-dot"></div>Disponible para proyectos</span>
-</footer>
-
-<script>
-// ── Animación de Reveal al hacer Scroll ──
-const io = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
-  });
-},{threshold:.1});
-document.querySelectorAll('.reveal').forEach((el,i)=>{
-  el.style.transitionDelay=(i*.05)+'s';
-  io.observe(el);
-});
-
-// ── Lógica de Reproducción por Clic con Sonido ──
-const videoCards = document.querySelectorAll('.vid-card, .card');
-
-videoCards.forEach(card => {
-  const video = card.querySelector('.card-video');
-
-  card.addEventListener('click', () => {
-    
-    // 1. Pausar CUALQUIER otro video que se esté reproduciendo
-    document.querySelectorAll('.card-video').forEach(otherVideo => {
-      if (otherVideo !== video && !otherVideo.paused) {
-        otherVideo.pause();
-        // Quitar clase 'playing' del contenedor padre del otro video
-        otherVideo.closest('.vid-card, .card').classList.remove('playing');
-      }
-    });
-
-    // 2. Play/Pause del video clickeado
-    if (video.paused) {
-      video.play();
-      card.classList.add('playing'); // Muestra video full y oculta icono play
-    } else {
-      video.pause();
-      card.classList.remove('playing'); // Vuelve a opacidad y muestra icono play
-    }
-  });
-});
-</script>
-</body>
-</html>
+        <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8
