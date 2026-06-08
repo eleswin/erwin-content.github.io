@@ -34,7 +34,7 @@ body{
   overflow-x:hidden;
 }
 
-/* Grano optimizado: PNG ultraligero en lugar de SVG matemático para evitar lag en móvil */
+/* Grano optimizado en PNG (60fps en móviles) */
 body::after{
   content:'';
   position:fixed;inset:0;
@@ -118,7 +118,7 @@ header{
   opacity: 0.75;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
   transform: scale(1) translateZ(0);
-  will-change: transform; /* Fuerza al móvil a usar hardware dedicado */
+  will-change: transform;
 }
 
 /* Zoom fluido sin saltos de pixeles */
@@ -300,7 +300,7 @@ footer{
 <div class="vid-grid">
 
   <div class="vid-card reveal">
-    <video class="card-video" loop playsinline muted preload="metadata">
+    <video class="card-video" loop playsinline preload="metadata">
       <source src="https://res.cloudinary.com/dompwyjjq/video/upload/casaIA2_eb289j.mp4" type="video/mp4">
     </video>
     <span class="card-num">01</span>
@@ -308,7 +308,7 @@ footer{
   </div>
 
   <div class="vid-card reveal">
-    <video class="card-video" loop playsinline muted preload="metadata">
+    <video class="card-video" loop playsinline preload="metadata">
       <source src="https://res.cloudinary.com/dompwyjjq/video/upload/Active8Full_nhph2z.mp4" type="video/mp4">
     </video>
     <span class="card-num">02</span>
@@ -316,7 +316,7 @@ footer{
   </div>
 
   <div class="vid-card reveal">
-    <video class="card-video" loop playsinline muted preload="metadata">
+    <video class="card-video" loop playsinline preload="metadata">
       <source src="https://res.cloudinary.com/dompwyjjq/video/upload/1_DSCR_Loan_bz0zpy.mp4" type="video/mp4">
     </video>
     <span class="card-num">03</span>
@@ -324,7 +324,7 @@ footer{
   </div>
 
   <div class="vid-card reveal">
-    <video class="card-video" loop playsinline muted preload="metadata">
+    <video class="card-video" loop playsinline preload="metadata">
       <source src="https://res.cloudinary.com/dompwyjjq/video/upload/6_pnqvo1.mp4" type="video/mp4">
     </video>
     <span class="card-num">04</span>
@@ -349,7 +349,7 @@ footer{
   <div class="grid">
 
     <div class="card reveal">
-      <video class="card-video" loop playsinline muted preload="metadata">
+      <video class="card-video" loop playsinline preload="metadata">
         <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video5.mp4" type="video/mp4">
       </video>
       <span class="card-num">05</span>
@@ -357,7 +357,7 @@ footer{
     </div>
 
     <div class="card reveal">
-      <video class="card-video" loop playsinline muted preload="metadata">
+      <video class="card-video" loop playsinline preload="metadata">
         <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video6.mp4" type="video/mp4">
       </video>
       <span class="card-num">06</span>
@@ -365,7 +365,7 @@ footer{
     </div>
 
     <div class="card reveal">
-      <video class="card-video" loop playsinline muted preload="metadata">
+      <video class="card-video" loop playsinline preload="metadata">
         <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video7.mp4" type="video/mp4">
       </video>
       <span class="card-num">07</span>
@@ -373,7 +373,7 @@ footer{
     </div>
 
     <div class="card reveal">
-      <video class="card-video" loop playsinline muted preload="metadata">
+      <video class="card-video" loop playsinline preload="metadata">
         <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video8.mp4" type="video/mp4">
       </video>
       <span class="card-num">08</span>
@@ -419,7 +419,7 @@ footer{
 </footer>
 
 <script>
-// ── Intersection Observer Acelerado ──
+// ── Intersection Observer ──
 const io = new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
@@ -434,13 +434,14 @@ document.querySelectorAll('.reveal').forEach((el,i)=>{
   io.observe(el);
 });
 
-// ── Lógica de Interacción Táctil y Clic Optimizada ──
+// ── Lógica de Interacción con Sonido Activado ──
 const videoCards = document.querySelectorAll('.vid-card, .card');
 
 videoCards.forEach(card => {
   const video = card.querySelector('.card-video');
 
   card.addEventListener('click', () => {
+    // Pausar los demás videos
     document.querySelectorAll('.card-video').forEach(otherVideo => {
       if (otherVideo !== video && !otherVideo.paused) {
         otherVideo.pause();
@@ -449,12 +450,12 @@ videoCards.forEach(card => {
     });
 
     if (video.paused) {
-      // Forzar que empiece reproduciendo sin sonido para asegurar la carga inmediata en móviles
-      video.muted = true; 
+      // AQUÍ ESTÁ EL TRUCO: Activamos el sonido justo en la acción directa del usuario
+      video.muted = false; 
       video.play().then(() => {
         card.classList.add('playing');
       }).catch(err => {
-        console.log("Error de reproducción:", err);
+        console.log("Error al reproducir con audio:", err);
       });
     } else {
       video.pause();
