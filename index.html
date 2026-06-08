@@ -181,22 +181,22 @@ footer{padding:1.5rem;border-top:1px solid var(--border);display:flex;justify-co
   </div>
   <div class="grid">
     <div class="card">
-      <video class="card-video" data-src="https://res.cloudinary.com/dompwyjjq/video/upload/Active8Full_nhph2z.mp4" loop playsinline muted preload="metadata"></video>
+      <video class="card-video" data-src="TU_LINK_DE_CLOUDINARY_AQUÍ_1" loop playsinline muted preload="metadata"></video>
       <span class="card-num">05</span>
       <div class="card-play"></div>
     </div>
     <div class="card">
-      <video class="card-video" data-src="https://res.cloudinary.com/dompwyjjq/video/upload/Active8Full_nhph2z.mp4" loop playsinline muted preload="metadata"></video>
+      <video class="card-video" data-src="TU_LINK_DE_CLOUDINARY_AQUÍ_2" loop playsinline muted preload="metadata"></video>
       <span class="card-num">06</span>
       <div class="card-play"></div>
     </div>
     <div class="card">
-      <video class="card-video" data-src="https://res.cloudinary.com/dompwyjjq/video/upload/Active8Full_nhph2z.mp4" loop playsinline muted preload="metadata"></video>
+      <video class="card-video" data-src="TU_LINK_DE_CLOUDINARY_AQUÍ_3" loop playsinline muted preload="metadata"></video>
       <span class="card-num">07</span>
       <div class="card-play"></div>
     </div>
     <div class="card">
-      <video class="card-video" data-src="https://res.cloudinary.com/dompwyjjq/video/upload/Active8Full_nhph2z.mp4" loop playsinline muted preload="metadata"></video>
+      <video class="card-video" data-src="TU_LINK_DE_CLOUDINARY_AQUÍ_4" loop playsinline muted preload="metadata"></video>
       <span class="card-num">08</span>
       <div class="card-play"></div>
     </div>
@@ -227,23 +227,20 @@ footer{padding:1.5rem;border-top:1px solid var(--border);display:flex;justify-co
 </footer>
 
 <script>
-// Inicialización segura de videos (Mux m3u8 + Cloudinary mp4)
+// Inicialización segura de videos (Mux m3u8 + Cloudinary)
 document.querySelectorAll('.card-video').forEach(video => {
   const src = video.getAttribute('data-src');
+  if(!src) return;
   
   if (src.includes('.m3u8')) {
-    // Si el navegador soporta HLS de forma nativa (iOS/Safari/Celulares)
     if (video.canPlayType('application/x-mpegURL')) {
       video.src = src;
-    } 
-    // Si es escritorio y necesita hls.js (Chrome/Firefox de PC)
-    else if (Hls.isSupported()) {
+    } else if (Hls.isSupported()) {
       const hls = new Hls();
       hls.loadSource(src);
       hls.attachMedia(video);
     }
   } else {
-    // Videos MP4 normales (Cloudinary)
     video.src = src;
   }
 });
