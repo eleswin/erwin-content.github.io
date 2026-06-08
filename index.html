@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#080808">
 <meta name="description" content="Erwin Content — Editor de Video">
 <title>Erwin-Content</title>
@@ -13,7 +13,7 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
   --bg:#080808;
-  --border:rgba(255,255,255,0.06); /* Borde aún más suave */
+  --border:rgba(255,255,255,0.06); 
   --text:#f0ece4;
   --muted:#5a5855;
   --accent:#e8c97a;
@@ -34,13 +34,13 @@ body{
   overflow-x:hidden;
 }
 
-/* grain overlay - Simplificado para rendimiento */
+/* Grano optimizado: PNG ultraligero en lugar de SVG matemático para evitar lag en móvil */
 body::after{
   content:'';
   position:fixed;inset:0;
   pointer-events:none;z-index:999;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-  opacity:.4;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4FormAAAABJQTFRFMFBQX19fX19fX19fX19fX19fMzMyAAAAB3RSTlMAgMC/wL/AX9K6bQAAADVJREFUeNo9zUERADAIA0E0w79bK6gH97YDRSST7K7shbXbXGZ3mX1m95g9Yg/MPrMH5g7MB8YVAZ29wY9uAAAAAElFTkSuQmCC");
+  opacity:.12;
 }
 
 /* ── Header ── */
@@ -79,7 +79,7 @@ header{
   text-transform:uppercase;color:var(--accent2);font-weight:400;
 }
 
-/* ── Grid de Videos Estructura Ampliada ── */
+/* ── Grid de Videos ── */
 .vid-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
@@ -94,13 +94,10 @@ header{
   overflow:hidden;
   aspect-ratio:9/16;
   cursor:pointer;
-  background:#020202; /* Fondo negro puro para precarga */
+  background:#020202; 
   border-radius: 8px;
   border: 1px solid var(--border);
-  /* Eliminado transform de aquí para evitar lag */
 }
-
-/* ELIMINADO: .vid-card:hover, .card:hover { border-color: ... } */
 
 @media(max-width:768px){
   .vid-grid{
@@ -110,7 +107,7 @@ header{
   }
 }
 
-/* ── Estilos de Video Optimizados (Uso de GPU) ── */
+/* ── Estilos de Video Con Aceleración GPU Máxima ── */
 .card-video {
   position:absolute;
   inset:0;
@@ -119,23 +116,22 @@ header{
   object-fit:cover;
   z-index:1;
   opacity: 0.75;
-  /* Animación súper fluida solo para el video */
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
-  transform: scale(1) translateZ(0); /* Aceleración por hardware */
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  transform: scale(1) translateZ(0);
+  will-change: transform; /* Fuerza al móvil a usar hardware dedicado */
 }
 
-/* Efecto Zoom ULTRA FLUIDO al pasar el cursor (sólo en el video) */
+/* Zoom fluido sin saltos de pixeles */
 .vid-card:hover .card-video, .card:hover .card-video {
-  transform: scale(1.05) translateZ(0);
+  transform: scale(1.04) translateZ(0);
   opacity: 0.9;
 }
 
-/* Estado del video en reproducción (full opacidad) */
 .vid-card.playing .card-video, .card.playing .card-video {
   opacity: 1;
 }
 .vid-card.playing:hover .card-video, .card.playing:hover .card-video {
-  transform: scale(1.02) translateZ(0); /* Menos zoom si ya juega */
+  transform: scale(1.01) translateZ(0); 
 }
 
 /* número */
@@ -155,7 +151,7 @@ header{
   border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   opacity:0.75;
-  transition:opacity 0.3s ease, transform 0.3s ease;
+  transition:opacity 0.25s ease, transform 0.25s ease;
   z-index:3;
   background:rgba(8,8,8,0.4);
   backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
@@ -171,10 +167,9 @@ header{
 
 .vid-card:hover .card-play, .card:hover .card-play {
   opacity:1;
-  transform:translate(-50%,-50%) scale(1.08);
+  transform:translate(-50%,-50%) scale(1.06);
 }
 
-/* Ocultar play suavemente al reproducir */
 .vid-card.playing .card-play, .card.playing .card-play {
   opacity: 0;
   transform:translate(-50%,-50%) scale(0.7);
@@ -285,7 +280,7 @@ footer{
 .foot-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 2s ease infinite;}
 
 /* ── Reveal Animation Optimizada ── */
-.reveal{opacity:0;transform:translateY(15px);transition:opacity 0.5s ease,transform 0.5s ease;}
+.reveal{opacity:0;transform:translateY(10px);transition:opacity 0.4s ease,transform 0.4s ease;}
 .reveal.in{opacity:1;transform:none;}
 
 </style>
@@ -305,7 +300,7 @@ footer{
 <div class="vid-grid">
 
   <div class="vid-card reveal">
-    <video class="card-video" loop playsinline preload="metadata">
+    <video class="card-video" loop playsinline muted preload="metadata">
       <source src="https://res.cloudinary.com/dompwyjjq/video/upload/casaIA2_eb289j.mp4" type="video/mp4">
     </video>
     <span class="card-num">01</span>
@@ -313,7 +308,7 @@ footer{
   </div>
 
   <div class="vid-card reveal">
-    <video class="card-video" loop playsinline preload="metadata">
+    <video class="card-video" loop playsinline muted preload="metadata">
       <source src="https://res.cloudinary.com/dompwyjjq/video/upload/Active8Full_nhph2z.mp4" type="video/mp4">
     </video>
     <span class="card-num">02</span>
@@ -321,7 +316,7 @@ footer{
   </div>
 
   <div class="vid-card reveal">
-    <video class="card-video" loop playsinline preload="metadata">
+    <video class="card-video" loop playsinline muted preload="metadata">
       <source src="https://res.cloudinary.com/dompwyjjq/video/upload/1_DSCR_Loan_bz0zpy.mp4" type="video/mp4">
     </video>
     <span class="card-num">03</span>
@@ -329,7 +324,7 @@ footer{
   </div>
 
   <div class="vid-card reveal">
-    <video class="card-video" loop playsinline preload="metadata">
+    <video class="card-video" loop playsinline muted preload="metadata">
       <source src="https://res.cloudinary.com/dompwyjjq/video/upload/6_pnqvo1.mp4" type="video/mp4">
     </video>
     <span class="card-num">04</span>
@@ -354,7 +349,7 @@ footer{
   <div class="grid">
 
     <div class="card reveal">
-      <video class="card-video" loop playsinline preload="metadata">
+      <video class="card-video" loop playsinline muted preload="metadata">
         <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video5.mp4" type="video/mp4">
       </video>
       <span class="card-num">05</span>
@@ -362,7 +357,7 @@ footer{
     </div>
 
     <div class="card reveal">
-      <video class="card-video" loop playsinline preload="metadata">
+      <video class="card-video" loop playsinline muted preload="metadata">
         <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video6.mp4" type="video/mp4">
       </video>
       <span class="card-num">06</span>
@@ -370,7 +365,7 @@ footer{
     </div>
 
     <div class="card reveal">
-      <video class="card-video" loop playsinline preload="metadata">
+      <video class="card-video" loop playsinline muted preload="metadata">
         <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video7.mp4" type="video/mp4">
       </video>
       <span class="card-num">07</span>
@@ -378,7 +373,7 @@ footer{
     </div>
 
     <div class="card reveal">
-      <video class="card-video" loop playsinline preload="metadata">
+      <video class="card-video" loop playsinline muted preload="metadata">
         <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video8.mp4" type="video/mp4">
       </video>
       <span class="card-num">08</span>
@@ -419,45 +414,47 @@ footer{
 </section>
 
 <footer>
-  <span class="foot-copy">© 2025 Erwin-Content</span>
+  <span class="foot-copy">© 2026 Erwin-Content</span>
   <span class="foot-avail"><div class="foot-dot"></div>Disponible para proyectos</span>
 </footer>
 
 <script>
-// ── Animación de Reveal (Simplificada y más rápida) ──
+// ── Intersection Observer Acelerado ──
 const io = new IntersectionObserver(entries=>{
   entries.forEach(e=>{
-    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
   });
-},{threshold:.02}); // Threshold más bajo para que salga antes
+},{threshold:.01});
+
 document.querySelectorAll('.reveal').forEach((el,i)=>{
-  el.style.transitionDelay=(i*.03)+'s'; // Delay más corto
+  el.style.transitionDelay=(i*.02)+'s'; 
   io.observe(el);
 });
 
-// ── Lógica de Reproducción (Ultra-Limpia y Rápida) ──
+// ── Lógica de Interacción Táctil y Clic Optimizada ──
 const videoCards = document.querySelectorAll('.vid-card, .card');
 
 videoCards.forEach(card => {
   const video = card.querySelector('.card-video');
 
   card.addEventListener('click', () => {
-    // 1. Pausar CUALQUIER otro video abierto
     document.querySelectorAll('.card-video').forEach(otherVideo => {
       if (otherVideo !== video && !otherVideo.paused) {
         otherVideo.pause();
-        // Quitar clase del padre
         otherVideo.closest('.vid-card, .card').classList.remove('playing');
       }
     });
 
-    // 2. Play/Pause del video clickeado
     if (video.paused) {
-      // Usamos .then() para manejar errores de autoplay bloqueado
+      // Forzar que empiece reproduciendo sin sonido para asegurar la carga inmediata en móviles
+      video.muted = true; 
       video.play().then(() => {
         card.classList.add('playing');
       }).catch(err => {
-        console.log("El navegador bloqueó la reproducción automática con sonido.", err);
+        console.log("Error de reproducción:", err);
       });
     } else {
       video.pause();
