@@ -158,7 +158,7 @@ footer{padding:1.5rem;border-top:1px solid var(--border);display:flex;justify-co
   </div>
 
   <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/6.mp4" loop playsinline muted preload="metadata"></video>
+    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/isla%20blanca_2.mp4" loop playsinline muted preload="metadata"></video>
     <span class="card-num">04</span>
     <div class="card-play"></div>
   </div>
@@ -178,22 +178,22 @@ footer{padding:1.5rem;border-top:1px solid var(--border);display:flex;justify-co
   </div>
   <div class="grid">
     <div class="card">
-      <video class="card-video" data-src="" loop playsinline muted preload="metadata"></video>
+      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/prb.mp4" loop playsinline muted preload="metadata"></video>
       <span class="card-num">05</span>
       <div class="card-play"></div>
     </div>
     <div class="card">
-      <video class="card-video" data-src="" loop playsinline muted preload="metadata"></video>
+      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/6.mp4" loop playsinline muted preload="metadata"></video>
       <span class="card-num">06</span>
       <div class="card-play"></div>
     </div>
     <div class="card">
-      <video class="card-video" data-src="" loop playsinline muted preload="metadata"></video>
+      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/Demii.mp4" loop playsinline muted preload="metadata"></video>
       <span class="card-num">07</span>
       <div class="card-play"></div>
     </div>
     <div class="card">
-      <video class="card-video" data-src="" loop playsinline muted preload="metadata"></video>
+      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/OzonoTerapia.mp4" loop playsinline muted preload="metadata"></video>
       <span class="card-num">08</span>
       <div class="card-play"></div>
     </div>
@@ -224,23 +224,19 @@ footer{padding:1.5rem;border-top:1px solid var(--border);display:flex;justify-co
 </footer>
 
 <script>
-// Carga nativa y directa de los MP4 desde Supabase
 document.querySelectorAll('.card-video').forEach(video => {
   const src = video.getAttribute('data-src');
   if (src) video.src = src;
 });
 
-// Sistema de reproducción seguro e inmune a errores null
 const videoCards = document.querySelectorAll('.vid-card, .card');
 videoCards.forEach(card => {
   const video = card.querySelector('.card-video');
   if (!video) return;
 
   card.addEventListener('click', () => {
-    // Si la casilla clickeada no tiene enlace cargado en el src, frena la ejecución
     if (!video.src) return;
 
-    // Pausar cualquier otro video activo protegiendo las casillas vacías
     document.querySelectorAll('.card-video').forEach(otherVideo => {
       if (otherVideo !== video && !otherVideo.paused) {
         otherVideo.pause();
@@ -250,7 +246,6 @@ videoCards.forEach(card => {
       }
     });
 
-    // Controlar el video actual
     if (video.paused) {
       video.muted = false; 
       video.play().then(() => card.classList.add('playing')).catch(() => {
