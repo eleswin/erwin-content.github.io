@@ -34,7 +34,7 @@ body{
   overflow-x:hidden;
 }
 
-/* Grano optimizado en PNG para rendimiento móvil */
+/* Grano optimizado en Base64 (Cero consumo de CPU en scroll) */
 body::after{
   content:'';
   position:fixed;inset:0;
@@ -107,45 +107,34 @@ header{
   }
 }
 
-/* ── Contenedores de Media con aceleración por Hardware ── */
-.card-poster {
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  z-index:1;
-  opacity: 0.65;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
-  transform: scale(1) translateZ(0);
-}
-
+/* ── Render de Video Acelerado por Hardware ── */
 .card-video {
   position:absolute;
   inset:0;
   width:100%;
   height:100%;
   object-fit:cover;
-  z-index:2;
-  opacity: 0;
-  transition: opacity 0.25s ease;
+  z-index:1;
+  opacity: 0.75;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  transform: scale(1) translateZ(0);
+  will-change: transform, opacity;
 }
 
-/* Cuando se inyecta y reproduce el video */
+.vid-card:hover .card-video, .card:hover .card-video {
+  transform: scale(1.04) translateZ(0);
+  opacity: 0.9;
+}
+
 .vid-card.playing .card-video, .card.playing .card-video {
   opacity: 1;
-}
-
-.vid-card:hover .card-poster, .card:hover .card-poster {
-  transform: scale(1.04) translateZ(0);
-  opacity: 0.8;
 }
 
 /* número */
 .card-num{
   position:absolute;top:.75rem;left:.8rem;
   font-family:var(--font-d);font-size:.7rem;
-  letter-spacing:.12em;color:var(--accent);opacity:.6;z-index:3;
+  letter-spacing:.12em;color:var(--accent);opacity:.6;z-index:2;
   pointer-events: none;
 }
 
@@ -159,7 +148,7 @@ header{
   display:flex;align-items:center;justify-content:center;
   opacity:0.75;
   transition:opacity 0.2s ease, transform 0.2s ease;
-  z-index:4;
+  z-index:3;
   background:rgba(8,8,8,0.4);
   backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
   pointer-events: none;
@@ -306,26 +295,34 @@ footer{
 
 <div class="vid-grid">
 
-  <div class="vid-card reveal" data-video="https://res.cloudinary.com/dompwyjjq/video/upload/casaIA2_eb289j.mp4">
-    <img class="card-poster" src="https://res.cloudinary.com/dompwyjjq/video/upload/c_scale,w_400/casaIA2_eb289j.jpg" alt="Miniatura 1" loading="lazy">
+  <div class="vid-card reveal">
+    <video class="card-video" loop playsinline muted preload="metadata">
+      <source src="https://res.cloudinary.com/dompwyjjq/video/upload/casaIA2_eb289j.mp4" type="video/mp4">
+    </video>
     <span class="card-num">01</span>
     <div class="card-play"></div>
   </div>
 
-  <div class="vid-card reveal" data-video="https://res.cloudinary.com/dompwyjjq/video/upload/Active8Full_nhph2z.mp4">
-    <img class="card-poster" src="https://res.cloudinary.com/dompwyjjq/video/upload/c_scale,w_400/Active8Full_nhph2z.jpg" alt="Miniatura 2" loading="lazy">
+  <div class="vid-card reveal">
+    <video class="card-video" loop playsinline muted preload="metadata">
+      <source src="https://res.cloudinary.com/dompwyjjq/video/upload/Active8Full_nhph2z.mp4" type="video/mp4">
+    </video>
     <span class="card-num">02</span>
     <div class="card-play"></div>
   </div>
 
-  <div class="vid-card reveal" data-video="https://res.cloudinary.com/dompwyjjq/video/upload/1_DSCR_Loan_bz0zpy.mp4">
-    <img class="card-poster" src="https://res.cloudinary.com/dompwyjjq/video/upload/c_scale,w_400/1_DSCR_Loan_bz0zpy.jpg" alt="Miniatura 3" loading="lazy">
+  <div class="vid-card reveal">
+    <video class="card-video" loop playsinline muted preload="metadata">
+      <source src="https://res.cloudinary.com/dompwyjjq/video/upload/1_DSCR_Loan_bz0zpy.mp4" type="video/mp4">
+    </video>
     <span class="card-num">03</span>
     <div class="card-play"></div>
   </div>
 
-  <div class="vid-card reveal" data-video="https://res.cloudinary.com/dompwyjjq/video/upload/6_pnqvo1.mp4">
-    <img class="card-poster" src="https://res.cloudinary.com/dompwyjjq/video/upload/c_scale,w_400/6_pnqvo1.jpg" alt="Miniatura 4" loading="lazy">
+  <div class="vid-card reveal">
+    <video class="card-video" loop playsinline muted preload="metadata">
+      <source src="https://res.cloudinary.com/dompwyjjq/video/upload/6_pnqvo1.mp4" type="video/mp4">
+    </video>
     <span class="card-num">04</span>
     <div class="card-play"></div>
   </div>
@@ -347,26 +344,34 @@ footer{
   
   <div class="grid">
 
-    <div class="card reveal" data-video="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video5.mp4">
-      <img class="card-poster" src="https://res.cloudinary.com/dompwyjjq/video/upload/c_scale,w_400/v1/video5.jpg" alt="Miniatura 5" loading="lazy">
+    <div class="card reveal">
+      <video class="card-video" loop playsinline muted preload="metadata">
+        <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video5.mp4" type="video/mp4">
+      </video>
       <span class="card-num">05</span>
       <div class="card-play"></div>
     </div>
 
-    <div class="card reveal" data-video="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video6.mp4">
-      <img class="card-poster" src="https://res.cloudinary.com/dompwyjjq/video/upload/c_scale,w_400/v1/video6.jpg" alt="Miniatura 6" loading="lazy">
+    <div class="card reveal">
+      <video class="card-video" loop playsinline muted preload="metadata">
+        <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video6.mp4" type="video/mp4">
+      </video>
       <span class="card-num">06</span>
       <div class="card-play"></div>
     </div>
 
-    <div class="card reveal" data-video="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video7.mp4">
-      <img class="card-poster" src="https://res.cloudinary.com/dompwyjjq/video/upload/c_scale,w_400/v1/video7.jpg" alt="Miniatura 7" loading="lazy">
+    <div class="card reveal">
+      <video class="card-video" loop playsinline muted preload="metadata">
+        <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video7.mp4" type="video/mp4">
+      </video>
       <span class="card-num">07</span>
       <div class="card-play"></div>
     </div>
 
-    <div class="card reveal" data-video="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video8.mp4">
-      <img class="card-poster" src="https://res.cloudinary.com/dompwyjjq/video/upload/c_scale,w_400/v1/video8.jpg" alt="Miniatura 8" loading="lazy">
+    <div class="card reveal">
+      <video class="card-video" loop playsinline muted preload="metadata">
+        <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video8.mp4" type="video/mp4">
+      </video>
       <span class="card-num">08</span>
       <div class="card-play"></div>
     </div>
@@ -425,62 +430,43 @@ document.querySelectorAll('.reveal').forEach((el,i)=>{
   io.observe(el);
 });
 
-// ── Lógica de Inyección de Video On-Demand (Audio Real + 0% Lag) ──
+// ── Reproducción Instantánea con Audio Activado al Clic ──
 const videoCards = document.querySelectorAll('.vid-card, .card');
 
 videoCards.forEach(card => {
+  const video = card.querySelector('.card-video');
+
   card.addEventListener('click', () => {
-    const videoSrc = card.getAttribute('data-video');
-    let currentVideo = card.querySelector('.card-video');
-
-    // 1. Limpiar y remover cualquier otro video activo en la página para liberar RAM inmediatamente
-    document.querySelectorAll('.vid-card, .card').forEach(otherCard => {
-      if (otherCard !== card && otherCard.classList.contains('playing')) {
-        const otherVideo = otherCard.querySelector('.card-video');
-        if (otherVideo) {
-          otherVideo.pause();
-          otherVideo.remove(); // Se elimina por completo del DOM
-        }
-        otherCard.classList.remove('playing');
+    // 1. Pausar y mutar inmediatamente cualquier otro video activo
+    document.querySelectorAll('.card-video').forEach(otherVideo => {
+      if (otherVideo !== video && !otherVideo.paused) {
+        otherVideo.pause();
+        otherVideo.muted = true;
+        otherVideo.closest('.vid-card, .card').classList.remove('playing');
       }
     });
 
-    // 2. Si el video ya está renderizado y tocando, hacemos pausa y lo quitamos
-    if (card.classList.contains('playing')) {
-      if (currentVideo) {
-        currentVideo.pause();
-        currentVideo.remove();
+    // 2. Play / Pause del video actual con desmuteo instantáneo
+    if (video.paused) {
+      video.muted = false; // Desmutea instantáneamente en memoria antes del play
+      
+      const playPromise = video.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          card.classList.add('playing');
+        }).catch(err => {
+          console.log("Interrupción de reproducción:", err);
+          // Fallback ultra-rápido en caso de restricción extrema del OS móvil
+          video.muted = true;
+          video.play().then(() => card.classList.add('playing'));
+        });
       }
+    } else {
+      video.pause();
+      video.muted = true;
       card.classList.remove('playing');
-      return;
     }
-
-    // 3. Si no existe el video, lo creamos justo ahora (Inyección dinámica)
-    if (!currentVideo) {
-      currentVideo = document.createElement('video');
-      currentVideo.className = 'card-video';
-      currentVideo.loop = true;
-      currentVideo.playsInline = true;
-      currentVideo.setAttribute('preload', 'auto');
-      
-      const source = document.createElement('source');
-      source.src = videoSrc;
-      source.type = 'video/mp4';
-      
-      currentVideo.appendChild(source);
-      card.appendChild(currentVideo);
-    }
-
-    // 4. Forzar Audio Activo y Reproducción
-    currentVideo.muted = false; 
-    currentVideo.play().then(() => {
-      card.classList.add('playing');
-    }).catch(err => {
-      console.log("Error de reproducción interactiva:", err);
-      // Fallback si el navegador bloquea el audio: reproducir silenciado y luego permitir desmutear
-      currentVideo.muted = true;
-      currentVideo.play().then(() => card.classList.add('playing'));
-    });
   });
 });
 </script>
