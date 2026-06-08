@@ -1,0 +1,241 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ERWIN_CONTENT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
+
+body{
+background:#0a0a0a;
+color:white;
+}
+
+.hero{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:20px;
+background:
+linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.8)),
+url('https://images.unsplash.com/photo-1574717024653-61fd2cf4d44f') center/cover;
+}
+
+.hero-content h1{
+font-size:5rem;
+font-weight:800;
+letter-spacing:3px;
+}
+
+.hero-content p{
+margin-top:15px;
+font-size:1.2rem;
+color:#bdbdbd;
+}
+
+.btns{
+margin-top:35px;
+}
+
+.btn{
+display:inline-block;
+padding:14px 30px;
+margin:0 10px;
+border-radius:12px;
+text-decoration:none;
+font-weight:600;
+transition:.3s;
+}
+
+.primary{
+background:#ff3b3b;
+color:white;
+}
+
+.secondary{
+border:1px solid #444;
+color:white;
+}
+
+.btn:hover{
+transform:translateY(-3px);
+}
+
+.section{
+padding:90px 8%;
+}
+
+.section h2{
+font-size:2.5rem;
+margin-bottom:40px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:25px;
+}
+
+.card{
+background:#111;
+border:1px solid #222;
+border-radius:18px;
+overflow:hidden;
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+}
+
+.video{
+height:220px;
+background:#1d1d1d;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:1rem;
+color:#666;
+}
+
+.card h3{
+padding:18px;
+}
+
+.about{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:50px;
+align-items:center;
+}
+
+.about-text p{
+line-height:1.8;
+color:#c8c8c8;
+}
+
+.contact{
+text-align:center;
+padding:80px 20px;
+border-top:1px solid #222;
+}
+
+.contact h2{
+margin-bottom:20px;
+}
+
+.contact a{
+color:#ff3b3b;
+text-decoration:none;
+}
+
+@media(max-width:768px){
+
+.hero-content h1{
+font-size:3rem;
+}
+
+.about{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>ERWIN_CONTENT</h1>
+
+<p>Editor Audiovisual Especializado en Formato Vertical</p>
+
+<div class="btns">
+<a href="#portfolio" class="btn primary">Ver Portafolio</a>
+<a href="#contacto" class="btn secondary">Contacto</a>
+</div>
+
+</div>
+
+</section>
+
+<section class="section" id="portfolio">
+
+<h2>Portafolio</h2>
+
+<div class="grid">
+
+<div class="card">
+<div class="video">VIDEO SHORTS / REELS</div>
+<h3>Contenido Vertical</h3>
+</div>
+
+<div class="card">
+<div class="video">VIDEO REAL ESTATE</div>
+<h3>Inmobiliarias</h3>
+</div>
+
+<div class="card">
+<div class="video">VIDEO IA</div>
+<h3>Edición con Inteligencia Artificial</h3>
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<div class="about">
+
+<div>
+<img src="https://via.placeholder.com/600x400"
+style="width:100%;border-radius:18px;">
+</div>
+
+<div class="about-text">
+
+<h2>Sobre Mí</h2>
+
+<p>
+Editor audiovisual con experiencia en contenido vertical,
+shorts, reels, TikTok, YouTube y automatización mediante IA.
+Mi enfoque está en captar atención durante los primeros segundos
+y maximizar la retención del espectador.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="contact" id="contacto">
+
+<h2>Trabajemos Juntos</h2>
+
+<p>WhatsApp: +57 XXX XXX XXXX</p>
+<p>Instagram: @erwin_content</p>
+
+</section>
+
+</body>
+</html>
+```
