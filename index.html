@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
 
-<script src="https://cdn.jsdelivr.net/npm/@mux/mux-player" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@mux/mux-player"></script>
 
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -37,7 +37,7 @@ body{
   overflow-x:hidden;
 }
 
-/* Grano estático optimizado en Base64 */
+/* Grano estático */
 body::after{
   content:'';
   position:fixed;inset:0;
@@ -110,13 +110,14 @@ header{
   }
 }
 
-/* ── Estilos de Video Tradicional y Mux-Player con aceleración GPU ── */
+/* ── CORRECCIÓN 2: Forzamos la visualización y dimensiones por CSS de Mux-Player ── */
 .card-video, mux-player {
   position:absolute;
   inset:0;
-  width:100%;
-  height:100%;
+  width:100% !important;
+  height:100% !important;
   object-fit:cover;
+  display: block;
   z-index:1;
   opacity: 0.75;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
@@ -124,7 +125,6 @@ header{
   will-change: transform, opacity;
 }
 
-/* Corrección visual interna para el shadow DOM de Mux Player */
 mux-player::part(video) {
   object-fit: cover;
 }
@@ -173,4 +173,9 @@ mux-player::part(video) {
 
 .vid-card:hover .card-play, .card:hover .card-play {
   opacity:1;
-  transform:translate(-50%,-50%)
+  transform:translate(-50%,-50%) scale(1.06);
+}
+
+.vid-card.playing .card-play, .card.playing .card-play {
+  opacity: 0;
+  transform:translate(-5
