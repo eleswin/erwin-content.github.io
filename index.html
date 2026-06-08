@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#080808">
 <meta name="description" content="Erwin Content — Editor de Video">
 <title>Erwin-Content</title>
@@ -58,3 +58,48 @@ header{
 }
 .featured-label span{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
 .featured-label strong{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2);font-weight:400;}
+
+.vid-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;
+  padding: 0 1.5rem 2.5rem;width:100%;max-width:var(--max); margin: 0 auto;
+}
+.vid-card, .card {
+  position:relative;overflow:hidden;aspect-ratio:9/16;
+  cursor:pointer;background:#020202;border-radius: 8px;border: 1px solid var(--border);
+}
+@media(max-width:768px){.vid-grid{grid-template-columns:repeat(2,1fr);gap: 1rem;padding: 0 1rem 2.5rem;}}
+
+/* DETALLES QUITADOS: Se eliminó la transformación scale (zoom) y transiciones pesadas */
+.card-video {
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;opacity: 0.75;
+}
+.vid-card:hover .card-video, .card:hover .card-video {opacity: 0.9;}
+.vid-card.playing .card-video, .card.playing .card-video {opacity: 1;}
+
+.card-num{position:absolute;top:.75rem;left:.8rem;font-family:var(--font-d);font-size:.7rem;letter-spacing:.12em;color:var(--accent);opacity:.6;z-index:2;pointer-events: none;}
+.card-play{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;
+  border:2px solid rgba(232,201,122,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;
+  opacity:0.75;z-index:3;background:rgba(8,8,8,0.4);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);pointer-events: none;
+}
+.card-play::after{content:'';border-left:16px solid var(--accent);border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:5px;}
+.vid-card:hover .card-play, .card:hover .card-play {opacity:1;}
+.vid-card.playing .card-play, .card.playing .card-play {opacity: 0;}
+
+.hero{padding:4.5rem 1.5rem 3.5rem;position:relative;overflow:hidden;max-width:var(--max);margin:0 auto;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 120%,rgba(232,201,122,.06) 0%,transparent 70%);pointer-events:none;}
+.hero-eyebrow{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem;}
+.hero-eyebrow::before{content:'';display:inline-block;width:24px;height:1px;background:var(--accent2);}
+h1{font-family:var(--font-d);font-size:clamp(3.5rem,10vw,6rem);line-height:.92;letter-spacing:.02em;text-transform:uppercase;margin-bottom:1.5rem;}
+h1 em{font-style:normal;color:var(--accent);display:block;}
+.hero-desc{font-size:.9rem;color:var(--muted);max-width:400px;line-height:1.8;}
+
+.sec-wrap{max-width:var(--max);margin:0 auto 3.5rem;}
+.sec-head{display:flex;align-items:center;justify-content:space-between;padding:2.5rem 1.5rem 1.2rem;}
+.sec-title{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+.sec-count{font-size:.6rem;letter-spacing:.1em;color:var(--accent2);}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;padding: 0 1.5rem;}
+@media(max-width:768px){.grid{grid-template-columns:repeat(2,1fr);gap: 1rem;padding: 0 1rem;}}
+
+.contact{padding:3.5rem 1.5rem;border-top:1px solid var(--border);max-width:var(--max);margin:0
