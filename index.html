@@ -24,66 +24,28 @@
   --max:1000px;
 }
 html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent;}
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:var(--font-b);
-  font-weight:300;
-  line-height:1.5;
-  min-height:100vh;
-  overflow-x:hidden;
-}
+body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-weight:300;line-height:1.5;min-height:100vh;overflow-x:hidden;}
 
-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1.1rem 1.5rem;
-  position:sticky;top:0;z-index:50;
-  background:rgba(8,8,8,0.9);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
-}
-.logo{
-  font-family:var(--font-d);font-size:1.3rem;
-  letter-spacing:.12em;color:var(--accent);
-  text-decoration:none;line-height:1;
-}
+header{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.5rem;position:sticky;top:0;z-index:50;background:rgba(8,8,8,0.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.logo{font-family:var(--font-d);font-size:1.3rem;letter-spacing:.12em;color:var(--accent);text-decoration:none;line-height:1;}
 .logo span{color:var(--muted);}
 .header-dot{width:8px;height:8px;border-radius:50%;background:var(--red);animation:blink 2s ease infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
 
-.featured-label{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:2.5rem 1.5rem 1.2rem;
-  max-width:var(--max); margin: 0 auto;
-}
+.featured-label{display:flex;align-items:center;justify-content:space-between;padding:2.5rem 1.5rem 1.2rem;max-width:var(--max); margin: 0 auto;}
 .featured-label span{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
 .featured-label strong{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2);font-weight:400;}
 
-.vid-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;
-  padding: 0 1.5rem 2.5rem;width:100%;max-width:var(--max); margin: 0 auto;
-}
-.vid-card, .card {
-  position:relative;overflow:hidden;aspect-ratio:9/16;
-  cursor:pointer;background:#020202;border-radius: 8px;border: 1px solid var(--border);
-}
-@media(max-width:768px){.vid-grid{grid-template-columns:repeat(2,1fr);gap: 1rem;padding: 0 1rem 2.5rem;}}
+.vid-grid, .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;padding: 0 1.5rem 2.5rem;width:100%;max-width:var(--max); margin: 0 auto;}
+.vid-card, .card {position:relative;overflow:hidden;aspect-ratio:9/16;cursor:pointer;background:#020202;border-radius: 8px;border: 1px solid var(--border);}
+@media(max-width:768px){.vid-grid, .grid{grid-template-columns:repeat(2,1fr);gap: 1rem;padding: 0 1rem 2.5rem;}}
 
-/* DISEÑO SIMPLIFICADO: Eliminados los efectos transform: scale() para evitar tirones */
-.card-video {
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;opacity: 0.75;
-  transition: opacity 0.25s ease;
-}
+.card-video {position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;opacity: 0.75;}
 .vid-card:hover .card-video, .card:hover .card-video {opacity: 0.9;}
 .vid-card.playing .card-video, .card.playing .card-video {opacity: 1;}
 
 .card-num{position:absolute;top:.75rem;left:.8rem;font-family:var(--font-d);font-size:.7rem;letter-spacing:.12em;color:var(--accent);opacity:.6;z-index:2;pointer-events: none;}
-.card-play{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;
-  border:2px solid rgba(232,201,122,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;
-  opacity:0.75;transition:opacity 0.2s ease;z-index:3;background:rgba(8,8,8,0.4);
-  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);pointer-events: none;
-}
+.card-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;border:2px solid rgba(232,201,122,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0.75;z-index:3;background:rgba(8,8,8,0.4);backdrop-filter:blur(4px);pointer-events: none;}
 .card-play::after{content:'';border-left:16px solid var(--accent);border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:5px;}
 .vid-card:hover .card-play, .card:hover .card-play {opacity:1;}
 .vid-card.playing .card-play, .card.playing .card-play {opacity: 0;}
@@ -100,18 +62,12 @@ h1 em{font-style:normal;color:var(--accent);display:block;}
 .sec-head{display:flex;align-items:center;justify-content:space-between;padding:2.5rem 1.5rem 1.2rem;}
 .sec-title{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
 .sec-count{font-size:.6rem;letter-spacing:.1em;color:var(--accent2);}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;padding: 0 1.5rem;}
-@media(max-width:768px){.grid{grid-template-columns:repeat(2,1fr);gap: 1rem;padding: 0 1rem;}}
 
 .contact{padding:3.5rem 1.5rem;border-top:1px solid var(--border);max-width:var(--max);margin:0 auto;}
 .contact h2{font-family:var(--font-d);font-size:clamp(2.8rem,10vw,4.5rem);letter-spacing:.03em;line-height:.95;text-transform:uppercase;margin-bottom:2.5rem;}
 .contact h2 span{color:var(--accent);}
 .contact-links{display:flex;flex-direction:column;gap:.75rem;}
-.clink{
-  display:flex;align-items:center;gap:.85rem;padding:1rem 1.2rem;border:1px solid var(--border);border-radius: 6px;
-  text-decoration:none;color:var(--text);font-size:.85rem;font-family:var(--font-b);font-weight:400;
-  transition:border-color .25s,background .25s;position:relative;overflow:hidden;
-}
+.clink{display:flex;align-items:center;gap:.85rem;padding:1rem 1.2rem;border:1px solid var(--border);border-radius: 6px;text-decoration:none;color:var(--text);font-size:.85rem;font-family:var(--font-b);font-weight:400;transition:border-color .25s,background .25s;position:relative;overflow:hidden;}
 .clink::after{content:'';position:absolute;right:1.2rem;font-size:.75rem;color:var(--muted);}
 .clink:hover,.clink:active{border-color:rgba(232,201,122,0.3);background:rgba(232,201,122,0.01);}
 .clink.primary{background:var(--accent);border-color:var(--accent);color:#080808;font-weight:600;}
@@ -119,7 +75,6 @@ h1 em{font-style:normal;color:var(--accent);display:block;}
 .clink.primary:hover,.clink.primary:active{background:var(--accent2);border-color:var(--accent2);}
 .clink-icon{width:32px;height:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .clink-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
-.clink.primary .clink-icon svg{stroke:#080808;}
 
 footer{padding:1.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;max-width:var(--max);margin:0 auto;}
 .foot-copy{font-size:.6rem;letter-spacing:.08em;color:var(--muted);}
@@ -140,29 +95,10 @@ footer{padding:1.5rem;border-top:1px solid var(--border);display:flex;justify-co
 </div>
 
 <div class="vid-grid">
-  <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/casaIA2.mp4" loop playsinline muted preload="metadata"></video>
-    <span class="card-num">01</span>
-    <div class="card-play"></div>
-  </div>
-
-  <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/Active8Full.mp4" loop playsinline muted preload="metadata"></video>
-    <span class="card-num">02</span>
-    <div class="card-play"></div>
-  </div>
-
-  <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/1%20DSCR%20Loan.mp4" loop playsinline muted preload="metadata"></video>
-    <span class="card-num">03</span>
-    <div class="card-play"></div>
-  </div>
-
-  <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/6.mp4" loop playsinline muted preload="metadata"></video>
-    <span class="card-num">04</span>
-    <div class="card-play"></div>
-  </div>
+  <div class="vid-card"><video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/casaIA2.mp4" loop playsinline muted></video><span class="card-num">01</span><div class="card-play"></div></div>
+  <div class="vid-card"><video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/Active8Full.mp4" loop playsinline muted></video><span class="card-num">02</span><div class="card-play"></div></div>
+  <div class="vid-card"><video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/1%20DSCR%20Loan.mp4" loop playsinline muted></video><span class="card-num">03</span><div class="card-play"></div></div>
+  <div class="vid-card"><video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/6.mp4" loop playsinline muted></video><span class="card-num">04</span><div class="card-play"></div></div>
 </div>
 
 <section class="hero">
@@ -170,18 +106,3 @@ footer{padding:1.5rem;border-top:1px solid var(--border);display:flex;justify-co
   <p class="hero-eyebrow">Editor de Video</p>
   <h1>Haz que<br><em>te vean.</em></h1>
   <p class="hero-desc">Edición cinematográfica para marcas, creadores y negocios que quieren contenido que convierte e impacta.</p>
-</section>
-
-<div class="sec-wrap">
-  <div class="sec-head">
-    <span class="sec-title">Más trabajos</span>
-    <span class="sec-count">04 piezas</span>
-  </div>
-  <div class="grid">
-    <div class="card">
-      <video class="card-video" data-src="" loop playsinline muted preload="metadata"></video>
-      <span class="card-num">05</span>
-      <div class="card-play"></div>
-    </div>
-    <div class="card">
-      <video class="card-video" data-src="" loop playsinline muted preload="metadata"></video>
