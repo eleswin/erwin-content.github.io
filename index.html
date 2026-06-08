@@ -21,7 +21,7 @@
   --red:#ff4422;
   --font-d:'Bebas Neue',sans-serif;
   --font-b:'Outfit',sans-serif;
-  --max:900px;
+  --max:1000px; /* Aumentado un poco para dar más aire */
 }
 html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent;}
 body{
@@ -64,11 +64,11 @@ header{
 }
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
 
-/* ── Etiquetas de sección ── */
+/* ── Etiquetas de sección (Limpiadas de bordes) ── */
 .featured-label{
   display:flex;align-items:center;justify-content:space-between;
-  padding:.75rem 1.5rem;
-  border-bottom:1px solid var(--border);
+  padding:2rem 1.5rem 1rem; /* Más espacio arriba */
+  max-width:var(--max); margin: 0 auto;
 }
 .featured-label span{
   font-size:.6rem;letter-spacing:.2em;
@@ -79,13 +79,14 @@ header{
   text-transform:uppercase;color:var(--accent2);font-weight:400;
 }
 
-/* ── Grid de Videos Estructura ── */
+/* ── Grid de Videos Estructura (Nuevos Espaciados) ── */
 .vid-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:1px;
-  background:var(--border);
+  gap:1.5rem; /* MUCHO MÁS ESPACIO */
+  padding: 0 1.5rem 2rem;
   width:100%;
+  max-width:var(--max); margin: 0 auto;
 }
 
 .vid-card, .card {
@@ -93,16 +94,26 @@ header{
   overflow:hidden;
   aspect-ratio:9/16;
   cursor:pointer;
-  background:var(--bg);
+  background:#000; /* Fondo negro puro para carga */
+  border-radius: 8px; /* Bordes redondeados sutiles */
+  border: 1px solid var(--border);
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
-@media(max-width:640px){
+.vid-card:hover, .card:hover {
+  border-color: rgba(232,201,122,0.3);
+  transform: translateY(-2px); /* Pequeño levante al hacer hover */
+}
+
+@media(max-width:768px){
   .vid-grid{
     grid-template-columns:repeat(2,1fr);
+    gap: 1rem;
+    padding: 0 1rem 2rem;
   }
 }
 
-/* ── Estilos de Video Nativo ── */
+/* ── Estilos de Video Nativo (Sin autoplay) ── */
 .card-video {
   position:absolute;
   inset:0;
@@ -110,13 +121,13 @@ header{
   height:100%;
   object-fit:cover;
   z-index:1;
-  transition:transform .5s ease;
+  opacity: 0.8; /* Ligeramente opaco cuando no se reproduce */
+  transition: opacity 0.3s ease;
 }
 
-/* Animación de zoom en los videos */
-.vid-card:hover .card-video, .vid-card:active .card-video,
-.card:hover .card-video, .card:active .card-video {
-  transform:scale(1.04);
+/* Cuando el video se está reproduciendo */
+.vid-card.playing .card-video, .card.playing .card-video {
+  opacity: 1;
 }
 
 /* número */
@@ -124,48 +135,50 @@ header{
   position:absolute;top:.75rem;left:.8rem;
   font-family:var(--font-d);font-size:.7rem;
   letter-spacing:.12em;color:var(--accent);opacity:.6;z-index:2;
+  pointer-events: none;
 }
 
-/* play icon */
+/* play icon (Habilitado por defecto) */
 .card-play{
   position:absolute;top:50%;left:50%;
   transform:translate(-50%,-50%);
-  width:46px;height:46px;
-  border:1px solid rgba(232,201,122,.4);
+  width:50px;height:50px;
+  border:2px solid rgba(232,201,122,.6);
   border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  opacity:0;transition:opacity .3s;
+  opacity:0.7; /* Visible por defecto */
+  transition:opacity 0.3s, transform 0.3s, background 0.3s;
   z-index:3;
-  background:rgba(8,8,8,0.2);
+  background:rgba(8,8,8,0.4);
   backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  pointer-events: none; /* El clic pasa a través al contenedor */
 }
 .card-play::after{
   content:'';
-  border-left:14px solid var(--accent);
-  border-top:8px solid transparent;
-  border-bottom:8px solid transparent;
-  margin-left:4px;
-}
-.vid-card:hover .card-play,.vid-card:active .card-play,
-.card:hover .card-play,.card:active .card-play {
-  opacity:1;
+  border-left:16px solid var(--accent);
+  border-top:10px solid transparent;
+  border-bottom:10px solid transparent;
+  margin-left:5px;
 }
 
-/* scanline hover */
-.vid-card::before, .card::before{
-  content:'';
-  position:absolute;top:-100%;left:0;right:0;
-  height:30%;
-  background:linear-gradient(to bottom,transparent,rgba(232,201,122,.05),transparent);
-  z-index:2;pointer-events:none;
-  transition:top .6s ease;
+.vid-card:hover .card-play, .card:hover .card-play {
+  opacity:1;
+  transform:translate(-50%,-50%) scale(1.05);
+  background:rgba(8,8,8,0.1);
 }
-.vid-card:hover::before, .card:hover::before{top:150%;}
+
+/* Ocultar play cuando se reproduce */
+.vid-card.playing .card-play, .card.playing .card-play {
+  opacity: 0;
+  transform:translate(-50%,-50%) scale(0.8);
+}
+
+/* scanline hover (Eliminado para limpieza total con el nuevo espaciado) */
+/*.vid-card::before, .card::before{...}*/
 
 /* ── Hero / intro ── */
 .hero{
-  padding:2.5rem 1.5rem 2rem;
-  border-bottom:1px solid var(--border);
+  padding:4rem 1.5rem 3rem;
   position:relative;overflow:hidden;
   max-width:var(--max);margin:0 auto;
 }
@@ -188,57 +201,65 @@ h1{
   font-family:var(--font-d);
   font-size:clamp(3.5rem,10vw,6rem);
   line-height:.92;letter-spacing:.02em;
-  text-transform:uppercase;margin-bottom:1rem;
+  text-transform:uppercase;margin-bottom:1.5rem;
 }
 h1 em{font-style:normal;color:var(--accent);display:block;}
 .hero-desc{
-  font-size:.85rem;color:var(--muted);
-  max-width:360px;line-height:1.75;
+  font-size:.9rem;color:var(--muted);
+  max-width:400px;line-height:1.8;
 }
 
 /* ── Grid secundaria ── */
-.sec-wrap{max-width:var(--max);margin:0 auto;}
+.sec-wrap{max-width:var(--max);margin:0 auto 3rem;}
 .sec-head{
   display:flex;align-items:center;justify-content:space-between;
-  padding:.85rem 1.5rem;border-bottom:1px solid var(--border);
+  padding:2rem 1.5rem 1rem;
 }
 .sec-title{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
 .sec-count{font-size:.6rem;letter-spacing:.1em;color:var(--accent2);}
 
 .grid{
   display:grid;grid-template-columns:1fr 1fr;
-  gap:1px;background:var(--border);
+  gap:1.5rem; /* Espacio aumentado */
+  padding: 0 1.5rem;
+}
+@media(max-width:640px){
+    .grid{ gap: 1rem; padding: 0 1rem; }
 }
 
 /* ── Contacto ── */
 .contact{
-  padding:2.5rem 1.5rem;border-top:1px solid var(--border);
+  padding:3rem 1.5rem;border-top:1px solid var(--border);
   max-width:var(--max);margin:0 auto;
 }
 .contact h2{
   font-family:var(--font-d);
   font-size:clamp(2.8rem,10vw,4.5rem);
   letter-spacing:.03em;line-height:.95;
-  text-transform:uppercase;margin-bottom:2rem;
+  text-transform:uppercase;margin-bottom:2.5rem;
 }
 .contact h2 span{color:var(--accent);}
-.contact-links{display:flex;flex-direction:column;gap:.65rem;}
+.contact-links{display:flex;flex-direction:column;gap:.75rem;}
 .clink{
   display:flex;align-items:center;gap:.85rem;
-  padding:.9rem 1rem;
+  padding:1rem 1.2rem;
   border:1px solid var(--border);
+  border-radius: 6px;
   text-decoration:none;color:var(--text);
-  font-size:.8rem;font-family:var(--font-b);font-weight:400;
-  transition:border-color .25s,background .25s;
+  font-size:.85rem;font-family:var(--font-b);font-weight:400;
+  transition:border-color .25s,background .25s, transform 0.2s;
   position:relative;overflow:hidden;
 }
 .clink::after{
-  content:'';position:absolute;right:1rem;
+  content:'';position:absolute;right:1.2rem;
   font-size:.75rem;color:var(--muted);
   transition:transform .25s,color .25s;
 }
-.clink:hover,.clink:active{border-color:var(--accent);background:rgba(232,201,122,.04);}
-.clink:hover::after,.clink:active::after{transform:translateX(3px);color:var(--accent);}
+.clink:hover,.clink:active{
+    border-color:rgba(232,201,122,0.5);
+    background:rgba(232,201,122,0.02);
+    transform: translateX(2px);
+}
 .clink.primary{
   background:var(--accent);border-color:var(--accent);
   color:#080808;font-weight:600;
@@ -246,32 +267,23 @@ h1 em{font-style:normal;color:var(--accent);display:block;}
 .clink.primary::after{color:#080808;opacity:.5;}
 .clink.primary:hover,.clink.primary:active{background:var(--accent2);border-color:var(--accent2);}
 .clink-icon{width:32px;height:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.clink-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.clink-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
 .clink.primary .clink-icon svg{stroke:#080808;}
 
 /* ── Footer ── */
 footer{
-  padding:1.25rem 1.5rem;border-top:1px solid var(--border);
+  padding:1.5rem;border-top:1px solid var(--border);
   display:flex;justify-content:space-between;align-items:center;
   max-width:var(--max);margin:0 auto;
 }
-.foot-copy{font-size:.58rem;letter-spacing:.08em;color:var(--muted);}
-.foot-avail{display:flex;align-items:center;gap:.4rem;font-size:.58rem;letter-spacing:.08em;color:var(--muted);}
+.foot-copy{font-size:.6rem;letter-spacing:.08em;color:var(--muted);}
+.foot-avail{display:flex;align-items:center;gap:.4rem;font-size:.6rem;letter-spacing:.08em;color:var(--muted);}
 .foot-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 2s ease infinite;}
 
 /* ── Reveal Animation ── */
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease;}
 .reveal.in{opacity:1;transform:none;}
 
-/* ── Desktop Viewport ── */
-@media(min-width:641px){
-  .vid-grid{
-    max-width:var(--max);
-    margin:0 auto;
-    grid-template-columns:repeat(4,1fr);
-  }
-  .featured-label{max-width:var(--max);margin:0 auto;}
-}
 </style>
 </head>
 <body>
@@ -289,7 +301,7 @@ footer{
 <div class="vid-grid">
 
   <div class="vid-card reveal">
-    <video class="card-video" autoplay loop muted playsinline>
+    <video class="card-video" loop playsinline preload="metadata">
       <source src="https://res.cloudinary.com/dompwyjjq/video/upload/casaIA2_eb289j.mp4" type="video/mp4">
     </video>
     <span class="card-num">01</span>
@@ -297,7 +309,7 @@ footer{
   </div>
 
   <div class="vid-card reveal">
-    <video class="card-video" autoplay loop muted playsinline>
+    <video class="card-video" loop playsinline preload="metadata">
       <source src="https://res.cloudinary.com/dompwyjjq/video/upload/Active8Full_nhph2z.mp4" type="video/mp4">
     </video>
     <span class="card-num">02</span>
@@ -305,7 +317,7 @@ footer{
   </div>
 
   <div class="vid-card reveal">
-    <video class="card-video" autoplay loop muted playsinline>
+    <video class="card-video" loop playsinline preload="metadata">
       <source src="https://res.cloudinary.com/dompwyjjq/video/upload/1_DSCR_Loan_bz0zpy.mp4" type="video/mp4">
     </video>
     <span class="card-num">03</span>
@@ -313,7 +325,7 @@ footer{
   </div>
 
   <div class="vid-card reveal">
-    <video class="card-video" autoplay loop muted playsinline>
+    <video class="card-video" loop playsinline preload="metadata">
       <source src="https://res.cloudinary.com/dompwyjjq/video/upload/6_pnqvo1.mp4" type="video/mp4">
     </video>
     <span class="card-num">04</span>
@@ -326,7 +338,7 @@ footer{
   <div class="hero-bg"></div>
   <p class="hero-eyebrow">Editor de Video</p>
   <h1>Haz que<br><em>te vean.</em></h1>
-  <p class="hero-desc">Edición cinematográfica para marcas, creadores y negocios que quieren contenido que convierte.</p>
+  <p class="hero-desc">Edición cinematográfica para marcas, creadores y negocios que quieren contenido que convierte e impacta.</p>
 </section>
 
 <div class="sec-wrap">
@@ -338,7 +350,7 @@ footer{
   <div class="grid">
 
     <div class="card reveal">
-      <video class="card-video" autoplay loop muted playsinline>
+      <video class="card-video" loop playsinline preload="metadata">
         <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video5.mp4" type="video/mp4">
       </video>
       <span class="card-num">05</span>
@@ -346,7 +358,7 @@ footer{
     </div>
 
     <div class="card reveal">
-      <video class="card-video" autoplay loop muted playsinline>
+      <video class="card-video" loop playsinline preload="metadata">
         <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video6.mp4" type="video/mp4">
       </video>
       <span class="card-num">06</span>
@@ -354,7 +366,7 @@ footer{
     </div>
 
     <div class="card reveal">
-      <video class="card-video" autoplay loop muted playsinline>
+      <video class="card-video" loop playsinline preload="metadata">
         <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video7.mp4" type="video/mp4">
       </video>
       <span class="card-num">07</span>
@@ -362,7 +374,7 @@ footer{
     </div>
 
     <div class="card reveal">
-      <video class="card-video" autoplay loop muted playsinline>
+      <video class="card-video" loop playsinline preload="metadata">
         <source src="https://res.cloudinary.com/dompwyjjq/video/upload/v1/video8.mp4" type="video/mp4">
       </video>
       <span class="card-num">08</span>
@@ -408,14 +420,43 @@ footer{
 </footer>
 
 <script>
+// ── Animación de Reveal al hacer Scroll ──
 const io = new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
   });
 },{threshold:.1});
 document.querySelectorAll('.reveal').forEach((el,i)=>{
-  el.style.transitionDelay=(i*.055)+'s';
+  el.style.transitionDelay=(i*.05)+'s';
   io.observe(el);
+});
+
+// ── Lógica de Reproducción por Clic con Sonido ──
+const videoCards = document.querySelectorAll('.vid-card, .card');
+
+videoCards.forEach(card => {
+  const video = card.querySelector('.card-video');
+
+  card.addEventListener('click', () => {
+    
+    // 1. Pausar CUALQUIER otro video que se esté reproduciendo
+    document.querySelectorAll('.card-video').forEach(otherVideo => {
+      if (otherVideo !== video && !otherVideo.paused) {
+        otherVideo.pause();
+        // Quitar clase 'playing' del contenedor padre del otro video
+        otherVideo.closest('.vid-card, .card').classList.remove('playing');
+      }
+    });
+
+    // 2. Play/Pause del video clickeado
+    if (video.paused) {
+      video.play();
+      card.classList.add('playing'); // Muestra video full y oculta icono play
+    } else {
+      video.pause();
+      card.classList.remove('playing'); // Vuelve a opacidad y muestra icono play
+    }
+  });
 });
 </script>
 </body>
