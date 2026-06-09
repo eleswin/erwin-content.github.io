@@ -34,350 +34,400 @@ body{
   overflow-x:hidden;
 }
 
+/* ── ANIMACIONES ── */
+.reveal{
+  opacity:0;transform:translateY(20px);
+  transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1);
+}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-left{
+  opacity:0;transform:translateX(-16px);
+  transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1);
+}
+.reveal-left.visible{opacity:1;transform:translateX(0);}
+.stagger-1{transition-delay:.05s;}
+.stagger-2{transition-delay:.11s;}
+.stagger-3{transition-delay:.17s;}
+.stagger-4{transition-delay:.23s;}
+
 /* ── HEADER ── */
 header{
   display:flex;align-items:center;justify-content:space-between;
-  padding:1.1rem 1.5rem;
+  padding:.9rem 1.5rem;
   position:sticky;top:0;z-index:50;
   background:rgba(8,8,8,0.92);
-  /* backdrop-filter solo en desktop — muy costoso en móvil */
   border-bottom:1px solid var(--border);
+  transform:translateY(-100%);
+  animation:slideDown .5s cubic-bezier(.16,1,.3,1) .1s forwards;
 }
-@media(hover:hover){
-  header{backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
-}
-.logo{
-  font-family:var(--font-d);font-size:1.3rem;
-  letter-spacing:.12em;color:var(--accent);
-  text-decoration:none;line-height:1;
-}
-.logo span{color:var(--muted);}
-.header-dot{width:8px;height:8px;border-radius:50%;background:var(--red);animation:blink 2s ease infinite;}
+@keyframes slideDown{to{transform:translateY(0);}}
+@media(hover:hover){header{backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}}
+
+.logo-img{height:32px;width:auto;display:block;object-fit:contain;}
+.header-dot{width:8px;height:8px;border-radius:50%;background:var(--red);animation:blink 2s ease infinite;flex-shrink:0;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+
+/* ── HERO COMPACTO ── */
+.hero{
+  padding:2rem 1.5rem 1.5rem;
+  position:relative;overflow:hidden;
+  max-width:var(--max);margin:0 auto;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;
+  flex-wrap:wrap;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 120%,rgba(232,201,122,.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-left{}
+.hero-eyebrow{
+  font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:.6rem;
+  display:flex;align-items:center;gap:.5rem;
+}
+.hero-eyebrow::before{content:'';display:inline-block;width:20px;height:1px;background:var(--accent2);}
+h1{
+  font-family:var(--font-d);
+  font-size:clamp(3rem,9vw,5rem);
+  line-height:.92;letter-spacing:.02em;text-transform:uppercase;
+}
+h1 em{font-style:normal;color:var(--accent);display:block;}
 
 /* ── LABELS ── */
 .featured-label{
   display:flex;align-items:center;justify-content:space-between;
-  padding:2.5rem 1.5rem 1.2rem;
+  padding:1.5rem 1.5rem .8rem;
   max-width:var(--max);margin:0 auto;
 }
-.featured-label span{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
-.featured-label strong{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2);font-weight:400;}
+.featured-label span{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+.featured-label strong{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2);font-weight:400;}
 
 /* ── GRIDS ── */
 .vid-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;
-  padding:0 1.5rem 2.5rem;width:100%;max-width:var(--max);margin:0 auto;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;
+  padding:0 1.5rem 1.5rem;width:100%;max-width:var(--max);margin:0 auto;
 }
-@media(max-width:768px){.vid-grid{grid-template-columns:repeat(2,1fr);gap:.75rem;padding:0 .75rem 2rem;}}
+@media(max-width:768px){.vid-grid{grid-template-columns:repeat(2,1fr);gap:.6rem;padding:0 .75rem 1.2rem;}}
 
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;padding:0 1.5rem;}
-@media(max-width:768px){.grid{grid-template-columns:repeat(2,1fr);gap:.75rem;padding:0 .75rem;}}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding:0 1.5rem;}
+@media(max-width:768px){.grid{grid-template-columns:repeat(2,1fr);gap:.6rem;padding:0 .75rem;}}
 
 /* ── CARDS ── */
 .vid-card,.card{
   position:relative;overflow:hidden;aspect-ratio:9/16;
   cursor:pointer;background:#111;
   border-radius:8px;border:1px solid var(--border);
-  /* contain aisla repaints y evita recalculos de layout en el resto de la página */
   contain:layout style;
+  transition:border-color .25s;
 }
-
-/* thumbnail placeholder mientras el video no carga */
-.vid-card::before,.card::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(160deg,#1a1a1a 0%,#0d0d0d 100%);
-  z-index:0;
-}
+@media(hover:hover){.vid-card:hover,.card:hover{border-color:rgba(232,201,122,0.2);}}
 
 .card-video{
   position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;z-index:1;opacity:.75;
-  /* will-change solo cuando es necesario — se activa via JS al reproducir */
 }
-
-/* hover solo en dispositivos con puntero real (desktop) */
 @media(hover:hover){
-  .card-video{transition:transform .3s cubic-bezier(.16,1,.3,1),opacity .25s ease;}
+  .card-video{transition:transform .35s cubic-bezier(.16,1,.3,1),opacity .25s ease;}
   .vid-card:hover .card-video,.card:hover .card-video{transform:scale(1.04);opacity:.9;}
   .vid-card:hover .card-play,.card:hover .card-play{opacity:1;transform:translate(-50%,-50%) scale(1.06);}
 }
-
 .vid-card.playing .card-video,.card.playing .card-video{opacity:1;}
 
-/* ── PLAY BUTTON ── */
 .card-num{
-  position:absolute;top:.75rem;left:.8rem;
-  font-family:var(--font-d);font-size:.7rem;letter-spacing:.12em;
+  position:absolute;top:.65rem;left:.7rem;
+  font-family:var(--font-d);font-size:.65rem;letter-spacing:.12em;
   color:var(--accent);opacity:.6;z-index:2;pointer-events:none;
 }
 .card-play{
   position:absolute;top:50%;left:50%;
   transform:translate(-50%,-50%);
-  width:50px;height:50px;
+  width:46px;height:46px;
   border:2px solid rgba(232,201,122,.5);border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   opacity:.75;z-index:3;
   background:rgba(8,8,8,0.5);
-  /* SIN backdrop-filter aquí — era el principal culpable del lag en móvil */
   pointer-events:none;
-  transition:opacity .2s ease, transform .2s ease;
+  transition:opacity .2s ease,transform .2s ease;
 }
 .card-play::after{
   content:'';
-  border-left:16px solid var(--accent);
-  border-top:10px solid transparent;
-  border-bottom:10px solid transparent;
-  margin-left:5px;
+  border-left:14px solid var(--accent);
+  border-top:9px solid transparent;
+  border-bottom:9px solid transparent;
+  margin-left:4px;
 }
-.vid-card.playing .card-play,.card.playing .card-play{
-  opacity:0;transform:translate(-50%,-50%) scale(.7);
-}
+.vid-card.playing .card-play,.card.playing .card-play{opacity:0;transform:translate(-50%,-50%) scale(.7);}
+@media(hover:none){.vid-card:active,.card:active{opacity:.85;}}
 
-/* tap feedback en móvil */
-@media(hover:none){
-  .vid-card:active,.card:active{opacity:.85;}
-}
-
-/* ── HERO ── */
-.hero{padding:2.5rem 1.5rem 2rem;position:relative;overflow:hidden;max-width:var(--max);margin:0 auto;}
-.hero-bg{
+/* ── CARD EMPTY (inmobiliaria placeholder) ── */
+.card-empty{
   position:absolute;inset:0;
-  background:radial-gradient(ellipse 80% 60% at 50% 120%,rgba(232,201,122,.06) 0%,transparent 70%);
-  pointer-events:none;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.5rem;opacity:.18;pointer-events:none;z-index:2;
 }
-.hero-eyebrow{
-  font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--muted);margin-bottom:1rem;
-  display:flex;align-items:center;gap:.6rem;
-}
-.hero-eyebrow::before{content:'';display:inline-block;width:24px;height:1px;background:var(--accent2);}
-h1{
-  font-family:var(--font-d);
-  font-size:clamp(3.5rem,10vw,6rem);
-  line-height:.92;letter-spacing:.02em;text-transform:uppercase;margin-bottom:1.5rem;
-}
-h1 em{font-style:normal;color:var(--accent);display:block;}
-.hero-desc{font-size:.9rem;color:var(--muted);max-width:400px;line-height:1.8;}
+.card-empty svg{width:26px;height:26px;stroke:var(--accent);fill:none;stroke-width:1.2;}
+.card-empty span{font-size:.52rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);}
 
 /* ── SECTION ── */
-.sec-wrap{max-width:var(--max);margin:0 auto 3.5rem;}
-.sec-head{display:flex;align-items:center;justify-content:space-between;padding:2.5rem 1.5rem 1.2rem;}
-.sec-title{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
-.sec-count{font-size:.6rem;letter-spacing:.1em;color:var(--accent2);}
+.sec-wrap{max-width:var(--max);margin:0 auto 1.5rem;}
+.sec-head{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 1.5rem .8rem;}
+.sec-title{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+.sec-count{font-size:.58rem;letter-spacing:.1em;color:var(--accent2);}
+
+/* ── DIVIDER INMOBILIARIA ── */
+.category-divider{
+  max-width:var(--max);margin:0 auto;
+  padding:2rem 1.5rem 0;
+  display:flex;align-items:center;gap:1rem;
+}
+.category-divider h2{
+  font-family:var(--font-d);
+  font-size:clamp(1.6rem,4.5vw,2.5rem);
+  letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;
+}
+.category-divider h2 span{color:var(--accent);}
+.divider-line{flex:1;height:1px;background:var(--border);}
+.category-tag{
+  font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent2);border:1px solid rgba(196,124,58,.3);
+  padding:.22rem .55rem;border-radius:3px;white-space:nowrap;
+}
 
 /* ── CONTACT ── */
-.contact{padding:3.5rem 1.5rem;border-top:1px solid var(--border);max-width:var(--max);margin:0 auto;}
+.contact{padding:2.5rem 1.5rem;border-top:1px solid var(--border);max-width:var(--max);margin:0 auto;}
 .contact h2{
   font-family:var(--font-d);
-  font-size:clamp(2.8rem,10vw,4.5rem);
-  letter-spacing:.03em;line-height:.95;text-transform:uppercase;margin-bottom:2.5rem;
+  font-size:clamp(2.5rem,9vw,4rem);
+  letter-spacing:.03em;line-height:.95;text-transform:uppercase;margin-bottom:1.8rem;
 }
 .contact h2 span{color:var(--accent);}
-.contact-links{display:flex;flex-direction:column;gap:.75rem;}
+.contact-links{display:flex;flex-direction:column;gap:.6rem;}
 .clink{
   display:flex;align-items:center;gap:.85rem;
-  padding:1rem 1.2rem;border:1px solid var(--border);border-radius:6px;
-  text-decoration:none;color:var(--text);font-size:.85rem;font-family:var(--font-b);font-weight:400;
+  padding:.9rem 1.1rem;border:1px solid var(--border);border-radius:6px;
+  text-decoration:none;color:var(--text);font-size:.82rem;font-family:var(--font-b);font-weight:400;
   transition:border-color .2s,background .2s;
   -webkit-touch-callout:none;
 }
-@media(hover:hover){
-  .clink:hover{border-color:rgba(232,201,122,0.3);background:rgba(232,201,122,0.01);transform:translateX(2px);}
-}
-@media(hover:none){
-  .clink:active{border-color:rgba(232,201,122,0.3);background:rgba(232,201,122,0.04);}
-}
+@media(hover:hover){.clink:hover{border-color:rgba(232,201,122,0.3);background:rgba(232,201,122,0.01);transform:translateX(2px);}}
+@media(hover:none){.clink:active{border-color:rgba(232,201,122,0.3);background:rgba(232,201,122,0.04);}}
 .clink.primary{background:var(--accent);border-color:var(--accent);color:#080808;font-weight:600;}
 .clink.primary:active{background:var(--accent2);border-color:var(--accent2);}
-.clink-icon{width:32px;height:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.clink-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.clink-icon{width:30px;height:30px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.clink-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
 .clink.primary .clink-icon svg{stroke:#080808;}
 
 /* ── FOOTER ── */
 footer{
-  padding:1.5rem;border-top:1px solid var(--border);
+  padding:1.2rem 1.5rem;border-top:1px solid var(--border);
   display:flex;justify-content:space-between;align-items:center;
   max-width:var(--max);margin:0 auto;
 }
-.foot-copy{font-size:.6rem;letter-spacing:.08em;color:var(--muted);}
-.foot-avail{display:flex;align-items:center;gap:.4rem;font-size:.6rem;letter-spacing:.08em;color:var(--muted);}
+.foot-copy{font-size:.58rem;letter-spacing:.08em;color:var(--muted);}
+.foot-avail{display:flex;align-items:center;gap:.4rem;font-size:.58rem;letter-spacing:.08em;color:var(--muted);}
 .foot-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 2s ease infinite;}
 </style>
 </head>
 <body>
 
 <header>
-  <a href="#" class="logo">ERWIN<span>·</span>CONTENT</a>
+  <a href="#">
+    <img class="logo-img" src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/mi%20logo.png" alt="Erwin Content" loading="eager">
+  </a>
   <div class="header-dot" title="Disponible"></div>
 </header>
 
-<div class="featured-label">
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-left">
+    <p class="hero-eyebrow reveal-left">Editor de Video</p>
+    <h1 class="reveal">Haz que<br><em>te vean.</em></h1>
+  </div>
+</section>
+
+<!-- DESTACADOS -->
+<div class="featured-label reveal">
   <span>Trabajos destacados</span>
   <strong>04 proyectos</strong>
 </div>
 
 <div class="vid-grid">
-  <div class="vid-card">
+  <div class="vid-card reveal stagger-1">
     <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/casaIA2.mp4" loop playsinline muted preload="metadata"></video>
-    <span class="card-num">01</span>
-    <div class="card-play"></div>
+    <span class="card-num">01</span><div class="card-play"></div>
   </div>
-  <div class="vid-card">
+  <div class="vid-card reveal stagger-2">
     <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/Active8Full.mp4" loop playsinline muted preload="metadata"></video>
-    <span class="card-num">02</span>
-    <div class="card-play"></div>
+    <span class="card-num">02</span><div class="card-play"></div>
   </div>
-  <div class="vid-card">
+  <div class="vid-card reveal stagger-3">
     <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/1%20DSCR%20Loan.mp4" loop playsinline muted preload="metadata"></video>
-    <span class="card-num">03</span>
-    <div class="card-play"></div>
+    <span class="card-num">03</span><div class="card-play"></div>
   </div>
-  <div class="vid-card">
+  <div class="vid-card reveal stagger-4">
     <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/isla%20blanca_2.mp4" loop playsinline muted preload="metadata"></video>
-    <span class="card-num">04</span>
-    <div class="card-play"></div>
+    <span class="card-num">04</span><div class="card-play"></div>
   </div>
 </div>
 
-<section class="hero">
-  <div class="hero-bg"></div>
-  <p class="hero-eyebrow">Editor de Video</p>
-  <h1>Haz que<br><em>te vean.</em></h1>
-
-</section>
-
+<!-- MÁS TRABAJOS -->
 <div class="sec-wrap">
-  <div class="sec-head">
+  <div class="sec-head reveal">
     <span class="sec-title">Más trabajos</span>
     <span class="sec-count">04 piezas</span>
   </div>
   <div class="grid">
-    <div class="card">
+    <div class="card reveal stagger-1">
       <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/prb.mp4" loop playsinline muted preload="metadata"></video>
-      <span class="card-num">05</span>
-      <div class="card-play"></div>
+      <span class="card-num">05</span><div class="card-play"></div>
     </div>
-    <div class="card">
+    <div class="card reveal stagger-2">
       <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/6.mp4" loop playsinline muted preload="metadata"></video>
-      <span class="card-num">06</span>
-      <div class="card-play"></div>
+      <span class="card-num">06</span><div class="card-play"></div>
     </div>
-    <div class="card">
+    <div class="card reveal stagger-3">
       <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/Demii.mp4" loop playsinline muted preload="metadata"></video>
-      <span class="card-num">07</span>
-      <div class="card-play"></div>
+      <span class="card-num">07</span><div class="card-play"></div>
     </div>
-    <div class="card">
+    <div class="card reveal stagger-4">
       <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/OzonoTerapia.mp4" loop playsinline muted preload="metadata"></video>
-      <span class="card-num">08</span>
-      <div class="card-play"></div>
+      <span class="card-num">08</span><div class="card-play"></div>
     </div>
   </div>
 </div>
 
+<!-- INMOBILIARIA -->
+<div class="category-divider reveal">
+  <h2>Sector <span>Inmobiliario</span></h2>
+  <div class="divider-line"></div>
+  <span class="category-tag">Real Estate</span>
+</div>
+
+<div class="sec-wrap">
+  <div class="sec-head reveal">
+    <span class="sec-title">Contenido especializado</span>
+    <span class="sec-count">04 piezas</span>
+  </div>
+  <div class="grid">
+    <div class="card reveal stagger-1">
+      <video class="card-video" data-src="" loop playsinline muted preload="none"></video>
+      <span class="card-num">01</span><div class="card-play"></div>
+      <div class="card-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>Próximamente</span></div>
+    </div>
+    <div class="card reveal stagger-2">
+      <video class="card-video" data-src="" loop playsinline muted preload="none"></video>
+      <span class="card-num">02</span><div class="card-play"></div>
+      <div class="card-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>Próximamente</span></div>
+    </div>
+    <div class="card reveal stagger-3">
+      <video class="card-video" data-src="" loop playsinline muted preload="none"></video>
+      <span class="card-num">03</span><div class="card-play"></div>
+      <div class="card-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>Próximamente</span></div>
+    </div>
+    <div class="card reveal stagger-4">
+      <video class="card-video" data-src="" loop playsinline muted preload="none"></video>
+      <span class="card-num">04</span><div class="card-play"></div>
+      <div class="card-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>Próximamente</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACTO -->
 <section class="contact">
-  <h2>Trabajemos<br><span>juntos.</span></h2>
+  <h2 class="reveal">Trabajemos<br><span>juntos.</span></h2>
   <div class="contact-links">
-    <a href="https://wa.me/573189108210?text=Hola%20Erwin%2C%20vi%20tu%20portafolio%20y%20me%20interesa%20trabajar%20contigo%20%F0%9F%8E%AC" target="_blank" rel="noopener" class="clink primary">
+    <a href="https://wa.me/573189108210?text=Hola%20Erwin%2C%20vi%20tu%20portafolio%20y%20me%20interesa%20trabajar%20contigo%20%F0%9F%8E%AC" target="_blank" rel="noopener" class="clink primary reveal stagger-1">
       <span class="clink-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
       WhatsApp · +57 318 910 8210
     </a>
-    <a href="https://www.instagram.com/elerwin_s/" target="_blank" rel="noopener" class="clink">
+    <a href="https://www.instagram.com/elerwin_s/" target="_blank" rel="noopener" class="clink reveal stagger-2">
       <span class="clink-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>
       Instagram · @elerwin_s
     </a>
-    <a href="https://www.tiktok.com/@eddy_maker" target="_blank" rel="noopener" class="clink">
-      <span class="clink-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></span>
+    <a href="https://www.tiktok.com/@eddy_maker" target="_blank" rel="noopener" class="clink reveal stagger-3">
+      <span class="clink-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin:round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></span>
       TikTok · @eddy_maker
     </a>
   </div>
 </section>
 
 <footer>
-  <span class="foot-copy">© 2026 Erwin-Content</span>
-  <span class="foot-avail"><div class="foot-dot"></div>Disponible para proyectos</span>
+  <span class="foot-copy reveal">© 2026 Erwin-Content</span>
+  <span class="foot-avail reveal"><div class="foot-dot"></div>Disponible para proyectos</span>
 </footer>
 
 <script>
 (function(){
   'use strict';
 
-  // ── 1. LAZY LOAD CON INTERSECTIONOBSERVER ──────────────────────────────
-  // El src solo se asigna cuando la card entra al viewport.
-  // Ningún video descarga datos hasta que el usuario lo ve.
-  const cards = document.querySelectorAll('.vid-card, .card');
+  // ── REVEAL AL SCROLL ──
+  const revealEls = document.querySelectorAll('.reveal, .reveal-left');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  revealEls.forEach(el => revealObs.observe(el));
 
-  // Asigna src al entrar al viewport — preload="metadata" trae solo el primer frame (miniatura)
-  const loadObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const video = entry.target.querySelector('.card-video');
+  // ── LAZY LOAD VIDEOS ──
+  const cards = document.querySelectorAll('.vid-card, .card');
+  const loadObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const video = e.target.querySelector('.card-video');
       if (video && !video.src) {
         const src = video.getAttribute('data-src');
-        if (src) {
-          video.src = src;
-          // Fuerza mostrar el primer frame como miniatura
-          video.load();
-        }
+        if (src) { video.src = src; video.load(); }
       }
-      loadObserver.unobserve(entry.target);
+      loadObs.unobserve(e.target);
     });
   }, { rootMargin: '300px' });
+  cards.forEach(c => loadObs.observe(c));
 
-  cards.forEach(card => loadObserver.observe(card));
-
-
-  // ── 2. PAUSAR VIDEOS FUERA DEL VIEWPORT ───────────────────────────────
-  // Si el usuario hace scroll y la card queda fuera, el video se pausa
-  // automáticamente para liberar CPU/GPU.
-  const visibilityObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const video = entry.target.querySelector('.card-video');
+  // ── PAUSAR FUERA DEL VIEWPORT ──
+  const visObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      const video = e.target.querySelector('.card-video');
       if (!video) return;
-      if (!entry.isIntersecting && !video.paused) {
+      if (!e.isIntersecting && !video.paused) {
         video.pause();
-        entry.target.classList.remove('playing');
+        e.target.classList.remove('playing');
       }
     });
   }, { threshold: 0.1 });
+  cards.forEach(c => visObs.observe(c));
 
-  cards.forEach(card => visibilityObserver.observe(card));
-
-
-  // ── 3. REPRODUCCIÓN AL TAP/CLICK ──────────────────────────────────────
+  // ── REPRODUCCIÓN AL TAP ──
   cards.forEach(card => {
     const video = card.querySelector('.card-video');
     if (!video) return;
-
     card.addEventListener('click', () => {
       if (!video.src) return;
-
-      // Pausa todos los demás videos activos
       document.querySelectorAll('.card-video').forEach(v => {
         if (v !== video && !v.paused) {
-          v.pause();
-          v.muted = true;
+          v.pause(); v.muted = true;
+          v.style.willChange = 'auto';
           const p = v.closest('.vid-card, .card');
           if (p) p.classList.remove('playing');
         }
       });
-
       if (video.paused) {
-        // Activa will-change solo en el video que va a reproducirse
         video.style.willChange = 'transform';
         video.muted = false;
         video.play()
           .then(() => card.classList.add('playing'))
           .catch(() => {
-            // Fallback: reproducir muteado si el navegador lo requiere
             video.muted = true;
             video.play().then(() => card.classList.add('playing'));
           });
       } else {
-        video.pause();
-        video.muted = true;
-        video.style.willChange = 'auto'; // libera la capa GPU al pausar
+        video.pause(); video.muted = true;
+        video.style.willChange = 'auto';
         card.classList.remove('playing');
       }
     });
