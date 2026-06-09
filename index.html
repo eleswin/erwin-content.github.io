@@ -23,7 +23,7 @@
   --font-b:'Outfit',sans-serif;
   --max:1000px;
 }
-html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent;}
+html{-webkit-tap-highlight-color:transparent;}
 body{
   background:var(--bg);
   color:var(--text);
@@ -34,34 +34,18 @@ body{
   overflow-x:hidden;
 }
 
-/* ── ANIMACIONES — solo opacity+transform, van por GPU sin repaint ── */
-.reveal{opacity:0;transform:translateY(18px);}
-.reveal.visible{opacity:1;transform:translateY(0);transition:opacity .45s cubic-bezier(.16,1,.3,1),transform .45s cubic-bezier(.16,1,.3,1);}
-.reveal-left{opacity:0;transform:translateX(-14px);}
-.reveal-left.visible{opacity:1;transform:translateX(0);transition:opacity .45s cubic-bezier(.16,1,.3,1),transform .45s cubic-bezier(.16,1,.3,1);}
-/* transition solo cuando visible — evita recalculos en el estado inicial */
-.stagger-1.visible{transition-delay:.04s;}
-.stagger-2.visible{transition-delay:.09s;}
-.stagger-3.visible{transition-delay:.14s;}
-.stagger-4.visible{transition-delay:.19s;}
-
 /* ── HEADER ── */
 header{
   display:flex;align-items:center;justify-content:space-between;
   padding:.9rem 1.5rem;
   position:sticky;top:0;z-index:50;
-  background:rgba(8,8,8,0.95);
+  background:rgba(8,8,8,0.97);
   border-bottom:1px solid var(--border);
-  /* sin animation CSS — menos trabajo al parsear */
 }
-/* backdrop-filter solo desktop — GPU killer en móvil */
-@media(hover:hover){header{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}}
-
 .logo-img{height:30px;width:auto;display:block;object-fit:contain;}
 .header-dot{
   width:8px;height:8px;border-radius:50%;
   background:var(--red);
-  /* animación simple: solo opacity, no transform */
   animation:blink 2.5s ease infinite;
   flex-shrink:0;
 }
@@ -70,7 +54,6 @@ header{
 /* ── HERO ── */
 .hero{
   padding:1.8rem 1.5rem 1.2rem;
-  position:relative;
   max-width:var(--max);margin:0 auto;
 }
 .hero-eyebrow{
@@ -116,30 +99,23 @@ h1 em{font-style:normal;color:var(--accent);display:block;}
   position:relative;overflow:hidden;aspect-ratio:9/16;
   cursor:pointer;background:#0f0f0f;
   border-radius:7px;border:1px solid var(--border);
-  /* contain:strict — la versión más agresiva, aisla layout+style+paint+size */
   contain:strict;
 }
-
 .card-video{
   position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;z-index:1;opacity:.72;
-  /* SIN transition por defecto — solo se agrega en desktop via media query */
 }
 @media(hover:hover){
-  .card-video{transition:transform .3s cubic-bezier(.16,1,.3,1),opacity .2s ease;}
-  .vid-card:hover .card-video,.card:hover .card-video{transform:scale(1.03);opacity:.88;}
-  .vid-card:hover .card-play,.card:hover .card-play{opacity:1;transform:translate(-50%,-50%) scale(1.05);}
+  .vid-card:hover .card-video,.card:hover .card-video{opacity:.88;}
+  .vid-card:hover .card-play,.card:hover .card-play{opacity:1;}
 }
 .vid-card.playing .card-video,.card.playing .card-video{opacity:1;}
 
-/* número */
 .card-num{
   position:absolute;top:.6rem;left:.65rem;
   font-family:var(--font-d);font-size:.62rem;letter-spacing:.1em;
   color:var(--accent);opacity:.55;z-index:2;pointer-events:none;
 }
-
-/* botón play — SIN backdrop-filter */
 .card-play{
   position:absolute;top:50%;left:50%;
   transform:translate(-50%,-50%);
@@ -149,7 +125,6 @@ h1 em{font-style:normal;color:var(--accent);display:block;}
   opacity:.7;z-index:3;
   background:rgba(8,8,8,0.55);
   pointer-events:none;
-  transition:opacity .15s,transform .15s;
 }
 .card-play::after{
   content:'';
@@ -158,12 +133,9 @@ h1 em{font-style:normal;color:var(--accent);display:block;}
   border-bottom:8px solid transparent;
   margin-left:4px;
 }
-.vid-card.playing .card-play,.card.playing .card-play{
-  opacity:0;transform:translate(-50%,-50%) scale(.65);
-}
-@media(hover:none){.vid-card:active,.card:active{opacity:.8;}}
+.vid-card.playing .card-play,.card.playing .card-play{opacity:0;}
+@media(hover:none){.vid-card:active,.card:active{opacity:.85;}}
 
-/* placeholder inmobiliaria */
 .card-empty{
   position:absolute;inset:0;z-index:2;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -181,7 +153,7 @@ h1 em{font-style:normal;color:var(--accent);display:block;}
 .sec-title{font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
 .sec-count{font-size:.56rem;letter-spacing:.1em;color:var(--accent2);}
 
-/* ── INMOBILIARIA DIVIDER ── */
+/* ── INMOBILIARIO DIVIDER ── */
 .category-divider{
   max-width:var(--max);margin:0 auto;
   padding:1.8rem 1.2rem 0;
@@ -219,13 +191,10 @@ h1 em{font-style:normal;color:var(--accent);display:block;}
   padding:.85rem 1rem;
   border:1px solid var(--border);border-radius:6px;
   text-decoration:none;color:var(--text);
-  font-size:.8rem;font-family:var(--font-b);font-weight:400;
-  -webkit-touch-callout:none;
-  /* transition solo en desktop */
+  font-size:.8rem;font-weight:400;
 }
 @media(hover:hover){
-  .clink{transition:border-color .2s,background .2s,transform .2s;}
-  .clink:hover{border-color:rgba(232,201,122,0.3);background:rgba(232,201,122,0.01);transform:translateX(2px);}
+  .clink:hover{border-color:rgba(232,201,122,0.3);background:rgba(232,201,122,0.03);}
 }
 @media(hover:none){.clink:active{border-color:rgba(232,201,122,0.3);background:rgba(232,201,122,0.04);}}
 .clink.primary{background:var(--accent);border-color:var(--accent);color:#080808;font-weight:600;}
@@ -253,84 +222,84 @@ footer{
 </header>
 
 <section class="hero">
-  <p class="hero-eyebrow reveal-left">Editor de Video</p>
-  <h1 class="reveal">Haz que<br><em>te vean.</em></h1>
+  <p class="hero-eyebrow">Editor de Video</p>
+  <h1>Haz que<br><em>te vean.</em></h1>
 </section>
 
-<div class="featured-label reveal">
+<div class="featured-label">
   <span>Trabajos destacados</span>
   <strong>04 proyectos</strong>
 </div>
 
 <div class="vid-grid">
-  <div class="vid-card reveal stagger-1">
+  <div class="vid-card">
     <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/casaIA2.mp4" loop playsinline muted preload="none"></video>
     <span class="card-num">01</span><div class="card-play"></div>
   </div>
-  <div class="vid-card reveal stagger-2">
+  <div class="vid-card">
     <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/Active8Full.mp4" loop playsinline muted preload="none"></video>
     <span class="card-num">02</span><div class="card-play"></div>
   </div>
-  <div class="vid-card reveal stagger-3">
+  <div class="vid-card">
     <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/1%20DSCR%20Loan.mp4" loop playsinline muted preload="none"></video>
     <span class="card-num">03</span><div class="card-play"></div>
   </div>
-  <div class="vid-card reveal stagger-4">
+  <div class="vid-card">
     <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/isla%20blanca_2.mp4" loop playsinline muted preload="none"></video>
     <span class="card-num">04</span><div class="card-play"></div>
   </div>
 </div>
 
 <div class="sec-wrap">
-  <div class="sec-head reveal">
+  <div class="sec-head">
     <span class="sec-title">Más trabajos</span>
     <span class="sec-count">04 piezas</span>
   </div>
   <div class="grid">
-    <div class="card reveal stagger-1">
+    <div class="card">
       <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/prb.mp4" loop playsinline muted preload="none"></video>
       <span class="card-num">05</span><div class="card-play"></div>
     </div>
-    <div class="card reveal stagger-2">
+    <div class="card">
       <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/6.mp4" loop playsinline muted preload="none"></video>
       <span class="card-num">06</span><div class="card-play"></div>
     </div>
-    <div class="card reveal stagger-3">
+    <div class="card">
       <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/Demii.mp4" loop playsinline muted preload="none"></video>
       <span class="card-num">07</span><div class="card-play"></div>
     </div>
-    <div class="card reveal stagger-4">
+    <div class="card">
       <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/OzonoTerapia.mp4" loop playsinline muted preload="none"></video>
       <span class="card-num">08</span><div class="card-play"></div>
     </div>
   </div>
 </div>
 
-<div class="category-divider reveal">
+<div class="category-divider">
   <h2>Sector <span>Inmobiliario</span></h2>
   <div class="divider-line"></div>
   <span class="category-tag">Real Estate</span>
 </div>
 
 <div class="sec-wrap">
-  <div class="sec-head reveal">
+  <div class="sec-head">
     <span class="sec-title">Contenido especializado</span>
     <span class="sec-count">04 piezas</span>
   </div>
   <div class="grid">
-    <div class="card reveal stagger-1">
+    <div class="card">
       <span class="card-num">01</span><div class="card-play"></div>
       <div class="card-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>Próximamente</span></div>
     </div>
-    <div class="card reveal stagger-2">
+    <div class="card">
       <span class="card-num">02</span><div class="card-play"></div>
       <div class="card-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>Próximamente</span></div>
     </div>
-    <div class="card reveal stagger-3">
+    <div class="card">
       <span class="card-num">03</span><div class="card-play"></div>
       <div class="card-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>Próximamente</span></div>
     </div>
-    <div class="card reveal stagger-4">
+    <div class="card">
       <span class="card-num">04</span><div class="card-play"></div>
       <div class="card-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>Próximamente</span></div>
     </div>
@@ -338,18 +307,18 @@ footer{
 </div>
 
 <section class="contact">
-  <h2 class="reveal">Trabajemos<br><span>juntos.</span></h2>
+  <h2>Trabajemos<br><span>juntos.</span></h2>
   <div class="contact-links">
-    <a href="https://wa.me/573189108210?text=Hola%20Erwin%2C%20vi%20tu%20portafolio%20y%20me%20interesa%20trabajar%20contigo%20%F0%9F%8E%AC" target="_blank" rel="noopener" class="clink primary reveal stagger-1">
+    <a href="https://wa.me/573189108210?text=Hola%20Erwin%2C%20vi%20tu%20portafolio%20y%20me%20interesa%20trabajar%20contigo%20%F0%9F%8E%AC" target="_blank" rel="noopener" class="clink primary">
       <span class="clink-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
       WhatsApp · +57 318 910 8210
     </a>
-    <a href="https://www.instagram.com/elerwin_s/" target="_blank" rel="noopener" class="clink reveal stagger-2">
+    <a href="https://www.instagram.com/elerwin_s/" target="_blank" rel="noopener" class="clink">
       <span class="clink-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>
       Instagram · @elerwin_s
     </a>
-    <a href="https://www.tiktok.com/@eddy_maker" target="_blank" rel="noopener" class="clink reveal stagger-3">
-      <span class="clink-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></span>
+    <a href="https://www.tiktok.com/@eddy_maker" target="_blank" rel="noopener" class="clink">
+      <span class="clink-icon"><svg viewBox="0 0 24 24"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></span>
       TikTok · @eddy_maker
     </a>
   </div>
@@ -364,75 +333,55 @@ footer{
 (function(){
   'use strict';
 
-  // ── REVEAL AL SCROLL ──
-  // requestAnimationFrame evita jank al aplicar clases durante scroll
-  const revealEls = document.querySelectorAll('.reveal, .reveal-left');
-  const revealObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        requestAnimationFrame(() => e.target.classList.add('visible'));
-        revealObs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
-  revealEls.forEach(el => revealObs.observe(el));
-
-  // ── LAZY LOAD + MINIATURA ──
-  // preload="none" en HTML → cero peticiones al cargar
-  // Al entrar al viewport: asigna src + preload="metadata" → solo descarga el primer frame
   const cards = document.querySelectorAll('.vid-card, .card');
-  const loadObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      const v = e.target.querySelector('.card-video');
-      if (v && !v.src) {
-        const src = v.getAttribute('data-src');
-        if (src) {
-          v.preload = 'metadata'; // cambia preload antes de asignar src
-          v.src = src;
-        }
+
+  // ── LAZY LOAD: asigna src solo cuando la card entra al viewport ──
+  const loadObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var v = e.target.querySelector('.card-video');
+      if(v && !v.src){
+        var src = v.getAttribute('data-src');
+        if(src){ v.preload='metadata'; v.src=src; }
       }
       loadObs.unobserve(e.target);
     });
-  }, { rootMargin: '250px' });
-  cards.forEach(c => loadObs.observe(c));
+  },{ rootMargin:'300px' });
+  cards.forEach(function(c){ loadObs.observe(c); });
 
-  // ── PAUSAR FUERA DEL VIEWPORT ──
-  const visObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      const v = e.target.querySelector('.card-video');
-      if (v && !e.isIntersecting && !v.paused) {
-        v.pause();
+  // ── PAUSA cuando sale del viewport ──
+  var visObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      var v = e.target.querySelector('.card-video');
+      if(v && !e.isIntersecting && !v.paused){
+        v.pause(); v.muted=true;
         e.target.classList.remove('playing');
       }
     });
-  }, { threshold: 0.1 });
-  cards.forEach(c => visObs.observe(c));
+  },{ threshold:0.1 });
+  cards.forEach(function(c){ visObs.observe(c); });
 
-  // ── REPRODUCCIÓN AL TAP ──
-  cards.forEach(card => {
-    const video = card.querySelector('.card-video');
-    if (!video) return;
-    card.addEventListener('click', () => {
-      if (!video.src) return;
-      // Pausa todos los demás
-      document.querySelectorAll('.card-video').forEach(v => {
-        if (v !== video && !v.paused) {
-          v.pause(); v.muted = true;
-          v.style.willChange = 'auto';
-          const p = v.closest('.vid-card,.card');
-          if (p) p.classList.remove('playing');
+  // ── PLAY / PAUSA al tap ──
+  cards.forEach(function(card){
+    var video = card.querySelector('.card-video');
+    if(!video) return;
+    card.addEventListener('click', function(){
+      if(!video.src) return;
+      // pausa los demás
+      document.querySelectorAll('.card-video').forEach(function(v){
+        if(v !== video && !v.paused){
+          v.pause(); v.muted=true;
+          var p = v.closest('.vid-card,.card');
+          if(p) p.classList.remove('playing');
         }
       });
-      if (video.paused) {
-        video.style.willChange = 'transform';
-        video.muted = false;
+      if(video.paused){
+        video.muted=false;
         video.play()
-          .then(() => card.classList.add('playing'))
-          .catch(() => { video.muted = true; video.play().then(() => card.classList.add('playing')); });
+          .then(function(){ card.classList.add('playing'); })
+          .catch(function(){ video.muted=true; video.play().then(function(){ card.classList.add('playing'); }); });
       } else {
-        video.pause(); video.muted = true;
-        video.style.willChange = 'auto';
+        video.pause(); video.muted=true;
         card.classList.remove('playing');
       }
     });
