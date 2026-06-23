@@ -180,7 +180,6 @@ h1 em{font-style:normal;color:var(--accent);display:block;}
   background:rgba(255,255,255,0.2);
   border-radius:2px;cursor:pointer;
   outline:none;border:none;
-  /* evita que el tap en la barra pause el video */
   pointer-events:auto;
 }
 .card-progress::-webkit-slider-thumb{
@@ -237,22 +236,9 @@ h1 em{font-style:normal;color:var(--accent);display:block;}
   -webkit-justify-content:center;justify-content:center;
   cursor:pointer;
   -webkit-flex-shrink:0;flex-shrink:0;
-  /* captura el tap sin propagar al card */
   pointer-events:auto;
 }
 .card-mute svg{width:12px;height:12px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
-
-/* placeholder inmobiliaria */
-.card-empty{
-  position:absolute;top:0;left:0;right:0;bottom:0;z-index:2;
-  display:-webkit-flex;display:flex;
-  -webkit-flex-direction:column;flex-direction:column;
-  -webkit-align-items:center;align-items:center;
-  -webkit-justify-content:center;justify-content:center;
-  gap:.4rem;opacity:.15;pointer-events:none;
-}
-.card-empty svg{width:24px;height:24px;stroke:var(--accent);fill:none;stroke-width:1.2;}
-.card-empty span{font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);}
 
 /* ── SECCIONES ── */
 .sec-wrap{max-width:var(--max);margin:0 auto 1.2rem;}
@@ -349,65 +335,30 @@ footer{
 </div>
 
 <div class="vid-grid">
+  <!-- VIDEOS PRINCIPALES -->
   <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/casaIA2.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
+    <video class="card-video" data-src="https://files.catbox.moe/7dolzr.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
     <span class="card-num">01</span>
     <div class="card-play"></div>
-    <div class="card-controls">
-      <input type="range" class="card-progress" min="0" max="100" value="0" step="0.1">
-      <div class="card-bottom">
-        <span class="card-time">0:00 / 0:00</span>
-        <button class="card-mute" aria-label="Activar sonido">
-          <svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-          <svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-        </button>
-      </div>
-    </div>
+    <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
   </div>
   <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/Active8Full.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
+    <video class="card-video" data-src="https://files.catbox.moe/ttwal3.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
     <span class="card-num">02</span>
     <div class="card-play"></div>
-    <div class="card-controls">
-      <input type="range" class="card-progress" min="0" max="100" value="0" step="0.1">
-      <div class="card-bottom">
-        <span class="card-time">0:00 / 0:00</span>
-        <button class="card-mute" aria-label="Activar sonido">
-          <svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-          <svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-        </button>
-      </div>
-    </div>
+    <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
   </div>
   <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/1%20DSCR%20Loan.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
+    <video class="card-video" data-src="https://files.catbox.moe/stco87.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
     <span class="card-num">03</span>
     <div class="card-play"></div>
-    <div class="card-controls">
-      <input type="range" class="card-progress" min="0" max="100" value="0" step="0.1">
-      <div class="card-bottom">
-        <span class="card-time">0:00 / 0:00</span>
-        <button class="card-mute" aria-label="Activar sonido">
-          <svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-          <svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-        </button>
-      </div>
-    </div>
+    <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
   </div>
   <div class="vid-card">
-    <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/isla%20blanca_2.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
+    <video class="card-video" data-src="https://files.catbox.moe/mw0vh1.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
     <span class="card-num">04</span>
     <div class="card-play"></div>
-    <div class="card-controls">
-      <input type="range" class="card-progress" min="0" max="100" value="0" step="0.1">
-      <div class="card-bottom">
-        <span class="card-time">0:00 / 0:00</span>
-        <button class="card-mute" aria-label="Activar sonido">
-          <svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-          <svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-        </button>
-      </div>
-    </div>
+    <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
   </div>
 </div>
 
@@ -417,65 +368,26 @@ footer{
     <span class="sec-count">04 piezas</span>
   </div>
   <div class="grid">
+    <!-- MÁS TRABAJOS -->
     <div class="card">
-      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/prb.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
-      <span class="card-num">05</span>
-      <div class="card-play"></div>
-      <div class="card-controls">
-        <input type="range" class="card-progress" min="0" max="100" value="0" step="0.1">
-        <div class="card-bottom">
-          <span class="card-time">0:00 / 0:00</span>
-          <button class="card-mute" aria-label="Activar sonido">
-            <svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-            <svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-          </button>
-        </div>
-      </div>
+      <video class="card-video" data-src="https://files.catbox.moe/g398zx.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
+      <span class="card-num">05</span><div class="card-play"></div>
+      <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
     </div>
     <div class="card">
-      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/6.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
-      <span class="card-num">06</span>
-      <div class="card-play"></div>
-      <div class="card-controls">
-        <input type="range" class="card-progress" min="0" max="100" value="0" step="0.1">
-        <div class="card-bottom">
-          <span class="card-time">0:00 / 0:00</span>
-          <button class="card-mute" aria-label="Activar sonido">
-            <svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-            <svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-          </button>
-        </div>
-      </div>
+      <video class="card-video" data-src="https://files.catbox.moe/goj5ft.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
+      <span class="card-num">06</span><div class="card-play"></div>
+      <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
     </div>
     <div class="card">
-      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/Demii.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
-      <span class="card-num">07</span>
-      <div class="card-play"></div>
-      <div class="card-controls">
-        <input type="range" class="card-progress" min="0" max="100" value="0" step="0.1">
-        <div class="card-bottom">
-          <span class="card-time">0:00 / 0:00</span>
-          <button class="card-mute" aria-label="Activar sonido">
-            <svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-            <svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-          </button>
-        </div>
-      </div>
+      <video class="card-video" data-src="https://files.catbox.moe/hh0j4p.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
+      <span class="card-num">07</span><div class="card-play"></div>
+      <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
     </div>
     <div class="card">
-      <video class="card-video" data-src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/OzonoTerapia.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
-      <span class="card-num">08</span>
-      <div class="card-play"></div>
-      <div class="card-controls">
-        <input type="range" class="card-progress" min="0" max="100" value="0" step="0.1">
-        <div class="card-bottom">
-          <span class="card-time">0:00 / 0:00</span>
-          <button class="card-mute" aria-label="Activar sonido">
-            <svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-            <svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-          </button>
-        </div>
-      </div>
+      <video class="card-video" data-src="https://files.catbox.moe/swzv9z.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
+      <span class="card-num">08</span><div class="card-play"></div>
+      <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
     </div>
   </div>
 </div>
@@ -489,24 +401,24 @@ footer{
 <div class="sec-wrap">
   <div class="sec-head">
     <span class="sec-title">Contenido especializado</span>
-    <span class="sec-count">04 piezas</span>
+    <span class="sec-count">03 piezas</span>
   </div>
   <div class="grid">
+    <!-- REAL ESTATE -->
     <div class="card">
+      <video class="card-video" data-src="https://files.catbox.moe/ullxkz.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
       <span class="card-num">01</span><div class="card-play"></div>
-      <div class="card-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>Próximamente</span></div>
+      <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
     </div>
     <div class="card">
+      <video class="card-video" data-src="https://files.catbox.moe/699m5y.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
       <span class="card-num">02</span><div class="card-play"></div>
-      <div class="card-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>Próximamente</span></div>
+      <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
     </div>
     <div class="card">
+      <video class="card-video" data-src="https://files.catbox.moe/699m5y.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
       <span class="card-num">03</span><div class="card-play"></div>
-      <div class="card-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>Próximamente</span></div>
-    </div>
-    <div class="card">
-      <span class="card-num">04</span><div class="card-play"></div>
-      <div class="card-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>Próximamente</span></div>
+      <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
     </div>
   </div>
 </div>
@@ -537,161 +449,26 @@ footer{
 <script>
 (function(){
   'use strict';
-
   var cards = document.querySelectorAll('.vid-card, .card');
-
-  function formatTime(s){
-    if(isNaN(s)||!isFinite(s)) return '0:00';
-    var m = Math.floor(s/60);
-    var sec = Math.floor(s%60);
-    return m+':'+(sec<10?'0':'')+sec;
-  }
-
-  function closestCard(el){
-    if(el.closest) return el.closest('.vid-card,.card');
-    var p=el.parentNode;
-    while(p&&p!==document){
-      if(p.classList&&(p.classList.contains('vid-card')||p.classList.contains('card'))) return p;
-      p=p.parentNode;
-    }
-    return null;
-  }
-
-  function updateMuteIcon(card, muted){
-    var btnMuted = card.querySelector('.icon-muted');
-    var btnSound = card.querySelector('.icon-sound');
-    if(!btnMuted||!btnSound) return;
-    if(muted){ btnMuted.style.display=''; btnSound.style.display='none'; }
-    else { btnMuted.style.display='none'; btnSound.style.display=''; }
-  }
-
-  function updateProgress(card, video){
-    var bar = card.querySelector('.card-progress');
-    var timeEl = card.querySelector('.card-time');
-    if(!bar||!video.duration) return;
-    var pct = (video.currentTime/video.duration)*100;
-    bar.value = pct;
-    // color de relleno via CSS custom property (webkit)
-    bar.style.setProperty('--prog', pct+'%');
-    if(timeEl) timeEl.textContent = formatTime(video.currentTime)+' / '+formatTime(video.duration);
-  }
-
-  function stopAllExcept(exceptVideo){
-    document.querySelectorAll('.card-video').forEach(function(v){
-      if(v!==exceptVideo && !v.paused){
-        v.pause(); v.muted=true;
-        var p=closestCard(v);
-        if(p){ p.classList.remove('playing'); updateMuteIcon(p,true); }
-      }
-    });
-  }
-
-  function playVideo(card, video){
-    video.muted=false;
-    var p=video.play();
-    var ok=function(){ card.classList.add('playing'); updateMuteIcon(card,false); };
-    var fallback=function(){ video.muted=true; video.play().then(function(){ card.classList.add('playing'); updateMuteIcon(card,true); }).catch(function(){}); };
-    if(p!==undefined){ p.then(ok).catch(fallback); } else { ok(); }
-  }
-
-  // ── LAZY LOAD ──
-  var loadObs = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(!e.isIntersecting) return;
-      var v=e.target.querySelector('.card-video');
-      if(v && !v.getAttribute('src')){
-        var src=v.getAttribute('data-src');
-        if(src){ v.setAttribute('preload','metadata'); v.setAttribute('src',src); v.load(); }
-      }
-      loadObs.unobserve(e.target);
-    });
-  },{ rootMargin:'300px' });
+  function formatTime(s){ if(isNaN(s)||!isFinite(s)) return '0:00'; var m = Math.floor(s/60); var sec = Math.floor(s%60); return m+':'+(sec<10?'0':'')+sec; }
+  function closestCard(el){ if(el.closest) return el.closest('.vid-card,.card'); var p=el.parentNode; while(p&&p!==document){ if(p.classList&&(p.classList.contains('vid-card')||p.classList.contains('card'))) return p; p=p.parentNode; } return null; }
+  function updateMuteIcon(card, muted){ var btnMuted = card.querySelector('.icon-muted'); var btnSound = card.querySelector('.icon-sound'); if(!btnMuted||!btnSound) return; if(muted){ btnMuted.style.display=''; btnSound.style.display='none'; } else { btnMuted.style.display='none'; btnSound.style.display=''; } }
+  function updateProgress(card, video){ var bar = card.querySelector('.card-progress'); var timeEl = card.querySelector('.card-time'); if(!bar||!video.duration) return; var pct = (video.currentTime/video.duration)*100; bar.value = pct; bar.style.setProperty('--prog', pct+'%'); if(timeEl) timeEl.textContent = formatTime(video.currentTime)+' / '+formatTime(video.duration); }
+  function stopAllExcept(exceptVideo){ document.querySelectorAll('.card-video').forEach(function(v){ if(v!==exceptVideo && !v.paused){ v.pause(); v.muted=true; var p=closestCard(v); if(p){ p.classList.remove('playing'); updateMuteIcon(p,true); } } }); }
+  function playVideo(card, video){ video.muted=false; var p=video.play(); var ok=function(){ card.classList.add('playing'); updateMuteIcon(card,false); }; var fallback=function(){ video.muted=true; video.play().then(function(){ card.classList.add('playing'); updateMuteIcon(card,true); }).catch(function(){}); }; if(p!==undefined){ p.then(ok).catch(fallback); } else { ok(); } }
+  var loadObs = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(!e.isIntersecting) return; var v=e.target.querySelector('.card-video'); if(v && !v.getAttribute('src')){ var src=v.getAttribute('data-src'); if(src){ v.setAttribute('preload','metadata'); v.setAttribute('src',src); v.load(); } } loadObs.unobserve(e.target); }); },{ rootMargin:'300px' });
   cards.forEach(function(c){ loadObs.observe(c); });
-
-  // ── PAUSA fuera del viewport ──
-  var visObs = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      var v=e.target.querySelector('.card-video');
-      if(v&&!e.isIntersecting&&!v.paused){
-        v.pause(); v.muted=true;
-        e.target.classList.remove('playing');
-        updateMuteIcon(e.target,true);
-      }
-    });
-  },{ threshold:0.1 });
+  var visObs = new IntersectionObserver(function(entries){ entries.forEach(function(e){ var v=e.target.querySelector('.card-video'); if(v&&!e.isIntersecting&&!v.paused){ v.pause(); v.muted=true; e.target.classList.remove('playing'); updateMuteIcon(e.target,true); } }); },{ threshold:0.1 });
   cards.forEach(function(c){ visObs.observe(c); });
-
-  // ── INIT POR CARD ──
   cards.forEach(function(card){
-    var video=card.querySelector('.card-video');
-    if(!video) return;
-
-    var bar=card.querySelector('.card-progress');
-    var muteBtn=card.querySelector('.card-mute');
-    var isDragging=false;
-
-    // progreso en tiempo real
-    video.addEventListener('timeupdate',function(){
-      if(!isDragging) updateProgress(card,video);
-    });
-    video.addEventListener('loadedmetadata',function(){
-      updateProgress(card,video);
-    });
-
-    // TAP en la card (play/pause) — ignorar si viene de controles
-    card.addEventListener('click',function(e){
-      if(!video.getAttribute('src')) return;
-      // si el click viene del bar o del botón mute, no hacer nada aquí
-      if(bar && bar.contains(e.target)) return;
-      if(muteBtn && muteBtn.contains(e.target)) return;
-
-      if(video.paused){
-        stopAllExcept(video);
-        playVideo(card,video);
-      } else {
-        video.pause(); video.muted=true;
-        card.classList.remove('playing');
-        updateMuteIcon(card,true);
-      }
-    });
-
-    // BARRA DE PROGRESO
-    if(bar){
-      // mousedown / touchstart — empieza drag
-      bar.addEventListener('mousedown',function(){ isDragging=true; });
-      bar.addEventListener('touchstart',function(){ isDragging=true; },{ passive:true });
-
-      bar.addEventListener('input',function(e){
-        e.stopPropagation();
-        if(video.duration){
-          var pct=parseFloat(bar.value)/100;
-          video.currentTime=pct*video.duration;
-          bar.style.setProperty('--prog',bar.value+'%');
-          var timeEl=card.querySelector('.card-time');
-          if(timeEl) timeEl.textContent=formatTime(video.currentTime)+' / '+formatTime(video.duration);
-        }
-      });
-
-      bar.addEventListener('change',function(e){
-        e.stopPropagation();
-        isDragging=false;
-      });
-
-      // evita que el click en la barra propague al card
-      bar.addEventListener('click',function(e){ e.stopPropagation(); });
-    }
-
-    // BOTÓN MUTE
-    if(muteBtn){
-      muteBtn.addEventListener('click',function(e){
-        e.stopPropagation();
-        if(video.paused) return;
-        video.muted=!video.muted;
-        updateMuteIcon(card,video.muted);
-      });
-    }
+    var video=card.querySelector('.card-video'); if(!video) return;
+    var bar=card.querySelector('.card-progress'); var muteBtn=card.querySelector('.card-mute'); var isDragging=false;
+    video.addEventListener('timeupdate',function(){ if(!isDragging) updateProgress(card,video); });
+    video.addEventListener('loadedmetadata',function(){ updateProgress(card,video); });
+    card.addEventListener('click',function(e){ if(!video.getAttribute('src')) return; if(bar && bar.contains(e.target)) return; if(muteBtn && muteBtn.contains(e.target)) return; if(video.paused){ stopAllExcept(video); playVideo(card,video); } else { video.pause(); video.muted=true; card.classList.remove('playing'); updateMuteIcon(card,true); } });
+    if(bar){ bar.addEventListener('mousedown',function(){ isDragging=true; }); bar.addEventListener('touchstart',function(){ isDragging=true; },{ passive:true }); bar.addEventListener('input',function(e){ e.stopPropagation(); if(video.duration){ var pct=parseFloat(bar.value)/100; video.currentTime=pct*video.duration; bar.style.setProperty('--prog',bar.value+'%'); var timeEl=card.querySelector('.card-time'); if(timeEl) timeEl.textContent=formatTime(video.currentTime)+' / '+formatTime(video.duration); } }); bar.addEventListener('change',function(e){ e.stopPropagation(); isDragging=false; }); bar.addEventListener('click',function(e){ e.stopPropagation(); }); }
+    if(muteBtn){ muteBtn.addEventListener('click',function(e){ e.stopPropagation(); if(video.paused) return; video.muted=!video.muted; updateMuteIcon(card,video.muted); }); }
   });
-
 })();
 </script>
 </body>
