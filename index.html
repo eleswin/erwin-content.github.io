@@ -1,56 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#080808">
-<title>Erwin-Content</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
-<style>
-    body { background: #080808; color: #f0ece4; font-family: 'Outfit', sans-serif; margin: 0; }
-    header { padding: 20px 30px; border-bottom: 1px solid #222; }
-    .logo-img { height: 30px; }
-    .hero { padding: 40px 30px; }
-    h1 { font-family: 'Bebas Neue'; font-size: 5rem; text-transform: uppercase; margin: 0; line-height: 0.9; }
-    h1 em { color: #e8c97a; font-style: normal; }
-    .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 20px; }
-    .vid-card { aspect-ratio: 9/16; background: #111; border-radius: 7px; overflow: hidden; }
-    video { width: 100%; height: 100%; object-fit: cover; }
-    @media(max-width:768px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-</style>
-</head>
-<body>
-
-<header>
-  <img class="logo-img" src="https://files.catbox.moe/d5c9mx.png" alt="Erwin Content">
-</header>
-
-<section class="hero">
-  <h1>Haz que<br><em>te vean.</em></h1>
-</section>
-
-<!-- El resto de tu estructura original -->
-<div class="grid">
-    <!-- Videos con carga optimizada -->
-    <div class="vid-card"><video src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/video1.mp4" playsinline muted loop preload="metadata"></video></div>
-    <div class="vid-card"><video src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/video2.mp4" playsinline muted loop preload="metadata"></video></div>
-    <!-- ... Aquí pondrías tus otros videos ... -->
-    
-    <!-- El último enlace de Inmobiliaria actualizado -->
-    <div class="vid-card"><video src="https://files.catbox.moe/18cx2k.mp4" playsinline muted loop preload="metadata"></video></div>
-</div>
-
-<script>
-    // Script para que se reproduzcan bien: los activa al hacer scroll
-    const videos = document.querySelectorAll('video');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) { entry.target.play(); } 
-            else { entry.target.pause(); }
-        });
-    }, { threshold: 0.5 });
-    videos.forEach(v => observer.observe(v));
-</script>
-
-</body>
-</html>
+<!-- ... (mantiene todo tu código original igual) ... -->
+<!-- En el Sector Inmobiliario, sección REAL ESTATE, cambié la última línea por: -->
+    <div class="card">
+      <video class="card-video" data-src="https://files.catbox.moe/18cx2k.mp4" loop playsinline webkit-playsinline muted preload="metadata"></video>
+      <span class="card-num">03</span><div class="card-play"></div>
+      <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
+    </div>
+<!-- ... (resto del código igual) ... -->
