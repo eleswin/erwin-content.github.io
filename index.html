@@ -1,41 +1,56 @@
-# Actualizar el código para mejorar la carga y rendimiento, y cambiar el enlace solicitado.
-# Usaré una técnica más robusta: `muted` + `playsinline` + `autoplay` (opcionalmente bajo demanda) 
-# y `preload="metadata"`.
-
-html_optimized = """
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Erwin-Content | Portafolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#080808">
+<title>Erwin-Content</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-    body { background: #080808; color: #f0ece4; font-family: 'Outfit', sans-serif; margin: 0; padding: 0; }
-    header { padding: 20px; border-bottom: 1px solid #222; }
-    .logo { max-width: 150px; }
-    .video-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px; }
-    .video-item { background: #111; border-radius: 8px; overflow: hidden; aspect-ratio: 9/16; position: relative; }
-    /* Estilos para optimizar la reproducción */
-    video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    body { background: #080808; color: #f0ece4; font-family: 'Outfit', sans-serif; margin: 0; }
+    header { padding: 20px 30px; border-bottom: 1px solid #222; }
+    .logo-img { height: 30px; }
+    .hero { padding: 40px 30px; }
+    h1 { font-family: 'Bebas Neue'; font-size: 5rem; text-transform: uppercase; margin: 0; line-height: 0.9; }
+    h1 em { color: #e8c97a; font-style: normal; }
+    .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 20px; }
+    .vid-card { aspect-ratio: 9/16; background: #111; border-radius: 7px; overflow: hidden; }
+    video { width: 100%; height: 100%; object-fit: cover; }
+    @media(max-width:768px) { .grid { grid-template-columns: repeat(2, 1fr); } }
 </style>
 </head>
 <body>
-    <header>
-        <img src="https://files.catbox.moe/d5c9mx.png" alt="Erwin Content" class="logo">
-    </header>
+
+<header>
+  <img class="logo-img" src="https://files.catbox.moe/d5c9mx.png" alt="Erwin Content">
+</header>
+
+<section class="hero">
+  <h1>Haz que<br><em>te vean.</em></h1>
+</section>
+
+<!-- El resto de tu estructura original -->
+<div class="grid">
+    <!-- Videos con carga optimizada -->
+    <div class="vid-card"><video src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/video1.mp4" playsinline muted loop preload="metadata"></video></div>
+    <div class="vid-card"><video src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/video2.mp4" playsinline muted loop preload="metadata"></video></div>
+    <!-- ... Aquí pondrías tus otros videos ... -->
     
-    <div class="video-container">
-        <!-- Videos Optimizado: preload="metadata" evita carga pesada inicial -->
-        <!-- Muted + playsinline es obligatorio para autoplay en navegadores modernos -->
-        <div class="video-item"><video src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/video1.mp4" playsinline muted preload="metadata" onmouseover="this.play()" onmouseout="this.pause()"></video></div>
-        <div class="video-item"><video src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/video2.mp4" playsinline muted preload="metadata" onmouseover="this.play()" onmouseout="this.pause()"></video></div>
-        <!-- Enlace solicitado cambiado -->
-        <div class="video-item"><video src="https://files.catbox.moe/18cx2k.mp4" playsinline muted preload="metadata" onmouseover="this.play()" onmouseout="this.pause()"></video></div>
-    </div>
+    <!-- El último enlace de Inmobiliaria actualizado -->
+    <div class="vid-card"><video src="https://files.catbox.moe/18cx2k.mp4" playsinline muted loop preload="metadata"></video></div>
+</div>
+
+<script>
+    // Script para que se reproduzcan bien: los activa al hacer scroll
+    const videos = document.querySelectorAll('video');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) { entry.target.play(); } 
+            else { entry.target.pause(); }
+        });
+    }, { threshold: 0.5 });
+    videos.forEach(v => observer.observe(v));
+</script>
+
 </body>
 </html>
-"""
-
-with open("portafolio_v3.html", "w", encoding="utf-8") as f:
-    f.write(html_optimized)
-print("Archivo generado exitosamente.")
