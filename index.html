@@ -2,13 +2,475 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#080808">
+<meta name="description" content="Erwin Content — Editor de Video">
+<title>Erwin-Content</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-/* TODO TU CSS AQUÍ ADENTRO */
-body { background: #080808; color: #f0ece4; }
-/* ... resto de tus estilos ... */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#080808;
+  --border:rgba(255,255,255,0.06);
+  --text:#f0ece4;
+  --muted:#5a5855;
+  --accent:#e8c97a;
+  --accent2:#c47c3a;
+  --red:#ff4422;
+  --font-d:'Bebas Neue',sans-serif;
+  --font-b:'Outfit',sans-serif;
+  --max:1000px;
+}
+html{-webkit-tap-highlight-color:transparent;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-b);
+  font-weight:300;
+  line-height:1.5;
+  min-height:100vh;
+  overflow-x:hidden;
+  -webkit-text-size-adjust:100%;
+}
+
+/* ── HEADER ── */
+header{
+  display:-webkit-flex;display:flex;
+  -webkit-align-items:center;align-items:center;
+  -webkit-justify-content:space-between;justify-content:space-between;
+  padding:.9rem 1.5rem;
+  position:-webkit-sticky;position:sticky;
+  top:0;z-index:50;
+  background:rgba(8,8,8,0.97);
+  border-bottom:1px solid var(--border);
+}
+.logo-img{height:30px;width:auto;display:block;object-fit:contain;}
+.header-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--red);
+  -webkit-animation:blink 2.5s ease infinite;
+  animation:blink 2.5s ease infinite;
+  -webkit-flex-shrink:0;flex-shrink:0;
+}
+@-webkit-keyframes blink{0%,100%{opacity:1;}50%{opacity:.15;}}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.15;}}
+
+/* ── HERO ── */
+.hero{padding:1.8rem 1.5rem 1.2rem;max-width:var(--max);margin:0 auto;}
+.hero-eyebrow{
+  font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:.5rem;
+  display:-webkit-flex;display:flex;
+  -webkit-align-items:center;align-items:center;gap:.5rem;
+}
+.hero-eyebrow::before{content:'';display:inline-block;width:18px;height:1px;background:var(--accent2);}
+h1{
+  font-family:var(--font-d);
+  font-size:clamp(2.8rem,9vw,5rem);
+  line-height:.92;letter-spacing:.02em;text-transform:uppercase;
+}
+h1 em{font-style:normal;color:var(--accent);display:block;}
+
+/* ── LABELS ── */
+.featured-label{
+  display:-webkit-flex;display:flex;
+  -webkit-align-items:center;align-items:center;
+  -webkit-justify-content:space-between;justify-content:space-between;
+  padding:1.2rem 1.5rem .7rem;
+  max-width:var(--max);margin:0 auto;
+}
+.featured-label span,.featured-label strong{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;}
+.featured-label span{color:var(--muted);}
+.featured-label strong{color:var(--accent2);font-weight:400;}
+
+/* ── GRIDS ── */
+.vid-grid{
+  display:-webkit-grid;display:grid;
+  grid-template-columns:repeat(4,1fr);gap:.8rem;
+  padding:0 1.2rem 1.2rem;max-width:var(--max);margin:0 auto;
+}
+@media(max-width:768px){.vid-grid{grid-template-columns:repeat(2,1fr);gap:.5rem;padding:0 .6rem 1rem;}}
+.grid{
+  display:-webkit-grid;display:grid;
+  grid-template-columns:repeat(4,1fr);gap:.8rem;
+  padding:0 1.2rem;max-width:var(--max);margin:0 auto;
+}
+@media(max-width:768px){.grid{grid-template-columns:repeat(2,1fr);gap:.5rem;padding:0 .6rem;}}
+
+/* ── CARDS ── */
+.vid-card,.card{
+  position:relative;overflow:hidden;
+  aspect-ratio:9/16;
+  cursor:pointer;background:#0f0f0f;
+  border-radius:7px;border:1px solid var(--border);
+  contain:layout paint;
+}
+@supports not (aspect-ratio:9/16){
+  .vid-card,.card{padding-bottom:177.78%;height:0;}
+}
+.card-video{
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  width:100%;height:100%;
+  object-fit:cover;z-index:1;opacity:.72;
+  -webkit-transform:translateZ(0);transform:translateZ(0);
+}
+@media(hover:hover){
+  .vid-card:hover .card-video,.card:hover .card-video{opacity:.88;}
+  .vid-card:hover .card-play,.card:hover .card-play{opacity:1;}
+}
+.vid-card.playing .card-video,.card.playing .card-video{opacity:1;}
+@media(hover:none){.vid-card:active,.card:active{opacity:.85;}}
+
+/* número */
+.card-num{
+  position:absolute;top:.6rem;left:.65rem;
+  font-family:var(--font-d);font-size:.62rem;letter-spacing:.1em;
+  color:var(--accent);opacity:.55;z-index:4;pointer-events:none;
+}
+
+/* botón play central */
+.card-play{
+  position:absolute;top:50%;left:50%;
+  -webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);
+  width:44px;height:44px;
+  border:1.5px solid rgba(232,201,122,.45);border-radius:50%;
+  display:-webkit-flex;display:flex;
+  -webkit-align-items:center;align-items:center;
+  -webkit-justify-content:center;justify-content:center;
+  opacity:.7;z-index:3;
+  background:rgba(8,8,8,0.55);
+  pointer-events:none;
+  -webkit-transition:opacity .15s;transition:opacity .15s;
+}
+.card-play::after{
+  content:'';
+  border-left:13px solid var(--accent);
+  border-top:8px solid transparent;
+  border-bottom:8px solid transparent;
+  margin-left:4px;
+}
+.vid-card.playing .card-play,.card.playing .card-play{opacity:0;}
+
+/* ── CONTROLES INFERIORES ── */
+.card-controls{
+  position:absolute;bottom:0;left:0;right:0;
+  z-index:5;
+  padding:.4rem .5rem .45rem;
+  background:linear-gradient(transparent, rgba(8,8,8,0.85));
+  display:-webkit-flex;display:flex;
+  -webkit-flex-direction:column;flex-direction:column;
+  gap:.3rem;
+  opacity:0;
+  -webkit-transition:opacity .2s;transition:opacity .2s;
+  pointer-events:none;
+}
+.vid-card.playing .card-controls,
+.card.playing .card-controls{
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* barra de progreso */
+.card-progress{
+  width:100%;height:3px;
+  -webkit-appearance:none;appearance:none;
+  background:rgba(255,255,255,0.2);
+  border-radius:2px;cursor:pointer;
+  outline:none;border:none;
+  pointer-events:auto;
+}
+.card-progress::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:12px;height:12px;
+  border-radius:50%;
+  background:var(--accent);
+  cursor:pointer;
+  margin-top:-4.5px;
+  -webkit-box-shadow:0 0 3px rgba(0,0,0,.5);
+  box-shadow:0 0 3px rgba(0,0,0,.5);
+}
+.card-progress::-moz-range-thumb{
+  width:12px;height:12px;
+  border-radius:50%;
+  background:var(--accent);
+  cursor:pointer;
+  border:none;
+  box-shadow:0 0 3px rgba(0,0,0,.5);
+}
+.card-progress::-webkit-slider-runnable-track{
+  height:3px;border-radius:2px;
+  background:linear-gradient(to right, var(--accent) var(--prog,0%), rgba(255,255,255,0.2) var(--prog,0%));
+}
+.card-progress::-moz-range-track{
+  height:3px;border-radius:2px;
+  background:rgba(255,255,255,0.2);
+}
+.card-progress::-moz-range-progress{
+  height:3px;border-radius:2px;
+  background:var(--accent);
+}
+
+/* fila inferior: tiempo + mute */
+.card-bottom{
+  display:-webkit-flex;display:flex;
+  -webkit-align-items:center;align-items:center;
+  -webkit-justify-content:space-between;justify-content:space-between;
+}
+.card-time{
+  font-size:.5rem;letter-spacing:.05em;
+  color:rgba(240,236,228,.6);
+  font-family:var(--font-b);
+  pointer-events:none;
+  min-width:52px;
+}
+.card-mute{
+  width:26px;height:26px;
+  border-radius:50%;
+  border:1px solid rgba(232,201,122,.3);
+  background:rgba(8,8,8,.6);
+  display:-webkit-flex;display:flex;
+  -webkit-align-items:center;align-items:center;
+  -webkit-justify-content:center;justify-content:center;
+  cursor:pointer;
+  -webkit-flex-shrink:0;flex-shrink:0;
+  pointer-events:auto;
+}
+.card-mute svg{width:12px;height:12px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ── SECCIONES ── */
+.sec-wrap{max-width:var(--max);margin:0 auto 1.2rem;}
+.sec-head{
+  display:-webkit-flex;display:flex;
+  -webkit-align-items:center;align-items:center;
+  -webkit-justify-content:space-between;justify-content:space-between;
+  padding:1.2rem 1.2rem .7rem;
+}
+.sec-title{font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+.sec-count{font-size:.56rem;letter-spacing:.1em;color:var(--accent2);}
+
+/* ── DIVIDER ── */
+.category-divider{
+  max-width:var(--max);margin:0 auto;
+  padding:1.8rem 1.2rem 0;
+  display:-webkit-flex;display:flex;
+  -webkit-align-items:center;align-items:center;gap:.8rem;
+}
+.category-divider h2{
+  font-family:var(--font-d);
+  font-size:clamp(1.5rem,4vw,2.3rem);
+  letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;
+}
+.category-divider h2 span{color:var(--accent);}
+.divider-line{-webkit-flex:1;flex:1;height:1px;background:var(--border);}
+.category-tag{
+  font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent2);border:1px solid rgba(196,124,58,.25);
+  padding:.2rem .5rem;border-radius:3px;white-space:nowrap;
+}
+
+/* ── CONTACTO ── */
+.contact{padding:2rem 1.2rem;border-top:1px solid var(--border);max-width:var(--max);margin:0 auto;}
+.contact h2{
+  font-family:var(--font-d);
+  font-size:clamp(2.2rem,8vw,3.8rem);
+  letter-spacing:.03em;line-height:.95;
+  text-transform:uppercase;margin-bottom:1.4rem;
+}
+.contact h2 span{color:var(--accent);}
+.contact-links{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:.5rem;}
+.clink{
+  display:-webkit-flex;display:flex;
+  -webkit-align-items:center;align-items:center;gap:.75rem;
+  padding:.85rem 1rem;
+  border:1px solid var(--border);border-radius:6px;
+  text-decoration:none;color:var(--text);
+  font-size:.8rem;font-weight:400;
+  -webkit-touch-callout:none;
+}
+@media(hover:hover){.clink:hover{border-color:rgba(232,201,122,0.3);background:rgba(232,201,122,0.03);}}
+@media(hover:none){.clink:active{border-color:rgba(232,201,122,0.3);background:rgba(232,201,122,0.04);}}
+.clink.primary{background:var(--accent);border-color:var(--accent);color:#080808;font-weight:600;}
+.clink.primary:active{background:var(--accent2);border-color:var(--accent2);}
+.clink-icon{
+  width:28px;height:28px;
+  display:-webkit-flex;display:flex;
+  -webkit-align-items:center;align-items:center;
+  -webkit-justify-content:center;justify-content:center;
+  -webkit-flex-shrink:0;flex-shrink:0;
+}
+.clink-icon svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.clink.primary .clink-icon svg{stroke:#080808;}
+
+/* ── FOOTER ── */
+footer{
+  padding:1rem 1.2rem;border-top:1px solid var(--border);
+  display:-webkit-flex;display:flex;
+  -webkit-justify-content:space-between;justify-content:space-between;
+  -webkit-align-items:center;align-items:center;
+  max-width:var(--max);margin:0 auto;
+}
+.foot-copy,.foot-avail{font-size:.56rem;letter-spacing:.07em;color:var(--muted);}
+.foot-avail{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:.35rem;}
+.foot-dot{width:5px;height:5px;border-radius:50%;background:var(--red);-webkit-animation:blink 2.5s ease infinite;animation:blink 2.5s ease infinite;}
 </style>
 </head>
 <body>
-<!-- TODO TU HTML AQUÍ -->
+
+<header>
+  <a href="#"><img class="logo-img" src="https://yonpkcxatzuuvombekxd.supabase.co/storage/v1/object/public/videos/mi%20logo.png" alt="Erwin Content" loading="eager" decoding="async"></a>
+  <div class="header-dot"></div>
+</header>
+
+<section class="hero">
+  <p class="hero-eyebrow">Editor de Video</p>
+  <h1>Haz que<br><em>te vean.</em></h1>
+</section>
+
+<div class="featured-label">
+  <span>Trabajos destacados</span>
+  <strong>04 proyectos</strong>
+</div>
+
+<div class="vid-grid">
+  <!-- VIDEOS PRINCIPALES -->
+  <div class="vid-card">
+    <video class="card-video" data-src="https://files.catbox.moe/7dolzr.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
+    <span class="card-num">01</span>
+    <div class="card-play"></div>
+    <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
+  </div>
+  <div class="vid-card">
+    <video class="card-video" data-src="https://files.catbox.moe/ttwal3.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
+    <span class="card-num">02</span>
+    <div class="card-play"></div>
+    <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
+  </div>
+  <div class="vid-card">
+    <video class="card-video" data-src="https://files.catbox.moe/stco87.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
+    <span class="card-num">03</span>
+    <div class="card-play"></div>
+    <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
+  </div>
+  <div class="vid-card">
+    <video class="card-video" data-src="https://files.catbox.moe/mw0vh1.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
+    <span class="card-num">04</span>
+    <div class="card-play"></div>
+    <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
+  </div>
+</div>
+
+<div class="sec-wrap">
+  <div class="sec-head">
+    <span class="sec-title">Más trabajos</span>
+    <span class="sec-count">04 piezas</span>
+  </div>
+  <div class="grid">
+    <!-- MÁS TRABAJOS -->
+    <div class="card">
+      <video class="card-video" data-src="https://files.catbox.moe/g398zx.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
+      <span class="card-num">05</span><div class="card-play"></div>
+      <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
+    </div>
+    <div class="card">
+      <video class="card-video" data-src="https://files.catbox.moe/goj5ft.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
+      <span class="card-num">06</span><div class="card-play"></div>
+      <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
+    </div>
+    <div class="card">
+      <video class="card-video" data-src="https://files.catbox.moe/hh0j4p.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
+      <span class="card-num">07</span><div class="card-play"></div>
+      <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
+    </div>
+    <div class="card">
+      <video class="card-video" data-src="https://files.catbox.moe/swzv9z.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
+      <span class="card-num">08</span><div class="card-play"></div>
+      <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="category-divider">
+  <h2>Sector <span>Inmobiliario</span></h2>
+  <div class="divider-line"></div>
+  <span class="category-tag">Real Estate</span>
+</div>
+
+<div class="sec-wrap">
+  <div class="sec-head">
+    <span class="sec-title">Contenido especializado</span>
+    <span class="sec-count">03 piezas</span>
+  </div>
+  <div class="grid">
+    <!-- REAL ESTATE -->
+    <div class="card">
+      <video class="card-video" data-src="https://files.catbox.moe/ullxkz.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
+      <span class="card-num">01</span><div class="card-play"></div>
+      <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
+    </div>
+    <div class="card">
+      <video class="card-video" data-src="https://files.catbox.moe/699m5y.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
+      <span class="card-num">02</span><div class="card-play"></div>
+      <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
+    </div>
+    <div class="card">
+      <!-- VIDEO ACTUALIZADO -->
+      <video class="card-video" data-src="https://files.catbox.moe/18cx2k.mp4" loop playsinline webkit-playsinline muted preload="none"></video>
+      <span class="card-num">03</span><div class="card-play"></div>
+      <div class="card-controls"><input type="range" class="card-progress" min="0" max="100" value="0" step="0.1"><div class="card-bottom"><span class="card-time">0:00 / 0:00</span><button class="card-mute"><svg class="icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><svg class="icon-sound" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button></div></div>
+    </div>
+  </div>
+</div>
+
+<section class="contact">
+  <h2>Trabajemos<br><span>juntos.</span></h2>
+  <div class="contact-links">
+    <a href="https://wa.me/573189108210?text=Hola%20Erwin%2C%20vi%20tu%20portafolio%20y%20me%20interesa%20trabajar%20contigo%20%F0%9F%8E%AC" target="_blank" rel="noopener" class="clink primary">
+      <span class="clink-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+      WhatsApp · +57 318 910 8210
+    </a>
+    <a href="https://www.instagram.com/elerwin_s/" target="_blank" rel="noopener" class="clink">
+      <span class="clink-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>
+      Instagram · @elerwin_s
+    </a>
+    <a href="https://www.tiktok.com/@eddy_maker" target="_blank" rel="noopener" class="clink">
+      <span class="clink-icon"><svg viewBox="0 0 24 24"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></span>
+      TikTok · @eddy_maker
+    </a>
+  </div>
+</section>
+
+<footer>
+  <span class="foot-copy">© 2026 Erwin-Content</span>
+  <span class="foot-avail"><div class="foot-dot"></div>Disponible para proyectos</span>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var cards = document.querySelectorAll('.vid-card, .card');
+  function formatTime(s){ if(isNaN(s)||!isFinite(s)) return '0:00'; var m = Math.floor(s/60); var sec = Math.floor(s%60); return m+':'+(sec<10?'0':'')+sec; }
+  function closestCard(el){ if(el.closest) return el.closest('.vid-card,.card'); var p=el.parentNode; while(p&&p!==document){ if(p.classList&&(p.classList.contains('vid-card')||p.classList.contains('card'))) return p; p=p.parentNode; } return null; }
+  function updateMuteIcon(card, muted){ var btnMuted = card.querySelector('.icon-muted'); var btnSound = card.querySelector('.icon-sound'); if(!btnMuted||!btnSound) return; if(muted){ btnMuted.style.display=''; btnSound.style.display='none'; } else { btnMuted.style.display='none'; btnSound.style.display=''; } }
+  function updateProgress(card, video){ var bar = card.querySelector('.card-progress'); var timeEl = card.querySelector('.card-time'); if(!bar||!video.duration) return; var pct = (video.currentTime/video.duration)*100; bar.value = pct; bar.style.setProperty('--prog', pct+'%'); if(timeEl) timeEl.textContent = formatTime(video.currentTime)+' / '+formatTime(video.duration); }
+  function stopAllExcept(exceptVideo){ document.querySelectorAll('.card-video').forEach(function(v){ if(v!==exceptVideo && !v.paused){ v.pause(); v.muted=true; var p=closestCard(v); if(p){ p.classList.remove('playing'); updateMuteIcon(p,true); } } }); }
+  function playVideo(card, video){ video.muted=false; var p=video.play(); var ok=function(){ card.classList.add('playing'); updateMuteIcon(card,false); }; var fallback=function(){ video.muted=true; video.play().then(function(){ card.classList.add('playing'); updateMuteIcon(card,true); }).catch(function(){}); }; if(p!==undefined){ p.then(ok).catch(fallback); } else { ok(); } }
+  var loadObs = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(!e.isIntersecting) return; var v=e.target.querySelector('.card-video'); if(v && !v.getAttribute('src')){ var src=v.getAttribute('data-src'); if(src){ v.setAttribute('preload','metadata'); v.setAttribute('src',src); v.load(); } } loadObs.unobserve(e.target); }); },{ rootMargin:'300px' });
+  cards.forEach(function(c){ loadObs.observe(c); });
+  var visObs = new IntersectionObserver(function(entries){ entries.forEach(function(e){ var v=e.target.querySelector('.card-video'); if(v&&!e.isIntersecting&&!v.paused){ v.pause(); v.muted=true; e.target.classList.remove('playing'); updateMuteIcon(e.target,true); } }); },{ threshold:0.1 });
+  cards.forEach(function(c){ visObs.observe(c); });
+  cards.forEach(function(card){
+    var video=card.querySelector('.card-video'); if(!video) return;
+    var bar=card.querySelector('.card-progress'); var muteBtn=card.querySelector('.card-mute'); var isDragging=false;
+    video.addEventListener('timeupdate',function(){ if(!isDragging) updateProgress(card,video); });
+    video.addEventListener('loadedmetadata',function(){ updateProgress(card,video); });
+    card.addEventListener('click',function(e){ if(!video.getAttribute('src')) return; if(bar && bar.contains(e.target)) return; if(muteBtn && muteBtn.contains(e.target)) return; if(video.paused){ stopAllExcept(video); playVideo(card,video); } else { video.pause(); video.muted=true; card.classList.remove('playing'); updateMuteIcon(card,true); } });
+    if(bar){ bar.addEventListener('mousedown',function(){ isDragging=true; }); bar.addEventListener('touchstart',function(){ isDragging=true; },{ passive:true }); bar.addEventListener('input',function(e){ e.stopPropagation(); if(video.duration){ var pct=parseFloat(bar.value)/100; video.currentTime=pct*video.duration; bar.style.setProperty('--prog',bar.value+'%'); var timeEl=card.querySelector('.card-time'); if(timeEl) timeEl.textContent=formatTime(video.currentTime)+' / '+formatTime(video.duration); } }); bar.addEventListener('change',function(e){ e.stopPropagation(); isDragging=false; }); bar.addEventListener('click',function(e){ e.stopPropagation(); }); }
+    if(muteBtn){ muteBtn.addEventListener('click',function(e){ e.stopPropagation(); if(video.paused) return; video.muted=!video.muted; updateMuteIcon(card,video.muted); }); }
+  });
+})();
+</script>
 </body>
 </html>
